@@ -39,6 +39,9 @@ RUN echo \ \ \ \ - /srv/pillar >> /etc/salt/master
 RUN echo ext_pillar: >> /etc/salt/master
 RUN echo \ \ - pillarHttp: http://127.0.0.1:8000/api/ >> /etc/salt/master
 
+RUN cp -rp /etc/salt/ /
+RUN rm -rf /etc/salt/*
+
 RUN mkdir -p /srv/salt
 RUN mkdir -p /srv/pillar
 RUN mkdir -p /srv/custom/pillar
@@ -47,6 +50,8 @@ ADD salt-master.conf /etc/supervisor/conf.d/salt-master.conf
 ADD pillarHttp.py /srv/custom/pillar/pillarHttp.py
 ADD entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
+
+VOLUME ["/etc/salt/"]
 
 EXPOSE 4505 4506
 

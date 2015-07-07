@@ -5,6 +5,10 @@ if [ -z "$PILLAR_HTTP_ENDPOINT" ];then
   exit 1
 fi
 
-sed -i /pillarHttp/s#http://127.0.0.1:8000/api/#${PILLAR_HTTP_ENDPOINT}#g /etc/salt/master
+if [ ! -f /etc/keystone/.complete ];then
+    cp -rp /salt/* /etc/salt/
+    sed -i /pillarHttp/s#http://127.0.0.1:8000/api/#${PILLAR_HTTP_ENDPOINT}#g /etc/salt/master
+    touch /etc/keystone/.complete
+fi
 
 /usr/bin/supervisord -n

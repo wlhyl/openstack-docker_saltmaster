@@ -4,4 +4,5 @@ docker run -d \
     --name salt-master \
     -p 4505:4505 \
     -p 4506:4506 \
+    -v /opt/salt:/etc/salt
     10.64.0.50:5000/lzh/salt-master
