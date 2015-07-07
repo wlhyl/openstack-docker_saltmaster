@@ -47,4 +47,4 @@ RUN chmod +x /usr/bin/entrypoint.sh
 
 EXPOSE 4505 4506
 
-ENTRYPOINT ['/usr/bin/entrypoint.sh']
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
