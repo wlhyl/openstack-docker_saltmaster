@@ -38,7 +38,7 @@ RUN echo ext_pillar: >> /etc/salt/master
 RUN echo \ \ - pillarHttp: http://127.0.0.1:8000/api/ >> /etc/salt/master
 
 RUN mkdir -p /srv/salt
-RUN mkidr -p /srv/pillar
+RUN mkdir -p /srv/pillar
 
 ADD salt-master.conf /etc/supervisor/conf.d/salt-master.conf
 ADD pillarHttp.py /srv/pillar/pillarHttp.py
