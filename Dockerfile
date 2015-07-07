@@ -26,6 +26,8 @@ RUN env --unset=DEBIAN_FRONTEND
 
 RUN sed -i /#interface/s/^#//g /etc/salt/master
 
+RUN echo extension_modules: /srv/custom >> /etc/salt/master
+
 RUN echo file_roots: >> /etc/salt/master
 RUN echo \ \ base: >> /etc/salt/master
 RUN echo \ \ \ \ - /srv/salt >> /etc/salt/master
@@ -39,9 +41,10 @@ RUN echo \ \ - pillarHttp: http://127.0.0.1:8000/api/ >> /etc/salt/master
 
 RUN mkdir -p /srv/salt
 RUN mkdir -p /srv/pillar
+RUN mkdir -p /srv/custom/pillar
 
 ADD salt-master.conf /etc/supervisor/conf.d/salt-master.conf
-ADD pillarHttp.py /srv/pillar/pillarHttp.py
+ADD pillarHttp.py /srv/custom/pillar/pillarHttp.py
 ADD entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 
