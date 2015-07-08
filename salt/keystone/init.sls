@@ -100,7 +100,7 @@ Keystone_tenants:
       - service
     - description: "Admin Project"
     - require:
-      - keystone :keystone_endpoint
+      - keystone: keystone_endpoint
 
 Keystone_roles:
   keystone.role_present:
