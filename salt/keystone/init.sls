@@ -73,7 +73,7 @@ wait-keystone-port:
       - keystone: Keystone_roles
       - keystone: admin
       - keystone: keystone_service
-      - keystone: keystone_endpoin
+      - keystone: keystone_endpoint
 
 keystone_service:
   keystone.service_present:
