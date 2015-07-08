@@ -12,8 +12,8 @@ mysql:
     - volumes:
       - /opt/openstack/mysql/: /var/lib/mysql/
     - ports:
-        "3306/tcp":
-           HostIp: ""
-           HostPort: "3306"
+        - "3306/tcp":
+               HostIp: ""
+               HostPort: "3306"
   require:
     - docker: {{ pillar['docker']['registry'] }}/lzh/mariadb

@@ -46,10 +46,10 @@ keystone:
       - /opt/openstack/log/keystone/: /var/log/keystone/
     - ports:
       - "5000/tcp":
-        HostIp: ""
-        HostPort: "5000"
+              HostIp: ""
+              HostPort: "5000"
       - "35357/tcp":
-        HostIp: ""
-        HostPort: "35357"
+              HostIp: ""
+              HostPort: "35357"
   require:
     - docker: {{ pillar['docker']['registry'] }}/lzh/keystone
