@@ -46,6 +46,8 @@ RUN mkdir -p /srv/salt
 RUN mkdir -p /srv/pillar
 RUN mkdir -p /srv/custom/pillar
 
+COPY salt /srv/salt/
+
 ADD salt-master.conf /etc/supervisor/conf.d/salt-master.conf
 ADD pillarHttp.py /srv/custom/pillar/pillarHttp.py
 ADD entrypoint.sh /usr/bin/entrypoint.sh

@@ -1,4 +1,5 @@
 # 运行salt-master
+变量：PILLAR_HTTP_ENDPOINT是 saltviewer 的地址
 docker run -d \
     -e PILLAR_HTTP_ENDPOINT=http://127.0.0.1/api/ \
     --name salt-master \
