@@ -1,3 +1,5 @@
+{% from "global/map.jinja" import openstack_profile with context %}
+
 keystone-mysql:
   mysql_database.present:
     - name: keystone
@@ -75,6 +77,7 @@ keystone_service:
     - name: keystone
     - service_type: identity
     - description: OpenStack Identity
+    - profile: {{ openstack_profile }}
 
 keystone_endpoint:
   keystone.endpoint_present:
@@ -83,5 +86,6 @@ keystone_endpoint:
     - internalurl: http://{{ pillar['keystone']['server'] }}:5000/v2.0
     - adminurl: http://{{ pillar['keystone']['server'] }}:35357/v2.0
     - region: regionOne
+    - profile: {{ openstack_profile }}
     - require:
       - keystone: keystone_service
