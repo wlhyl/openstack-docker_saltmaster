@@ -113,13 +113,13 @@ Keystone_roles:
 
 admin:
   keystone.user_present:
-    - password: {{ pillar['keystone']['admin_pass'] }}
+    - password: "{{ pillar['keystone']['admin_pass'] }}"
     - email: {{ pillar['keystone']['email'] }}
     - roles:
-      - admin:   # tenants
-        - admin  # roles
-      - service:
-        - admin
+        admin:   # tenants
+          - admin  # roles
+        service:
+          - admin
     - profile: {{ openstack_profile }}
     - require:
       - keystone: Keystone_tenants
