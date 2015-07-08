@@ -99,6 +99,7 @@ Keystone_tenants:
       - admin
       - service
     - description: "Admin Project"
+    - profile: {{ openstack_profile }}
     - require:
       - keystone: keystone_endpoint
 
@@ -106,6 +107,7 @@ Keystone_roles:
   keystone.role_present:
     - names:
       - admin
+    - profile: {{ openstack_profile }}
     - require:
       - keystone: keystone_endpoint
 
@@ -118,6 +120,7 @@ admin:
         - admin  # roles
       - service:
         - admin
+      - profile: {{ openstack_profile }}
     - require:
       - keystone: Keystone_tenants
       - keystone: Keystone_role
