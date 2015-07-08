@@ -120,7 +120,7 @@ admin:
         - admin  # roles
       - service:
         - admin
-      - profile: {{ openstack_profile }}
+    - profile: {{ openstack_profile }}
     - require:
       - keystone: Keystone_tenants
       - keystone: Keystone_roles
