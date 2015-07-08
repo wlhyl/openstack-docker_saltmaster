@@ -51,5 +51,37 @@ keystone:
       - "35357/tcp":
               HostIp: ""
               HostPort: "35357"
-  require:
-    - docker: {{ pillar['docker']['registry'] }}/lzh/keystone
+    - require:
+      - docker: {{ pillar['docker']['registry'] }}/lzh/keystone
+
+/tmp/wait-port.sh:
+  file.managed:
+    - source: salt://keystone/files/wait-port.sh
+    - template: jinja
+
+wait-keystone-port:
+  cmd.run:
+    - name: /bin/bash /tmp/wait-port.sh 30 {{ pillar["keystone"]["server"] }} 35357
+    - stateful: True
+    - require:
+      - file: /tmp/wait-port.sh
+      - docker: keystone
+    - require_in:
+      - keystone: keystone_service
+      - keystone: keystone_endpoint
+
+keystone_service:
+  keystone.service_present:
+    - name: keystone
+    - service_type: identity
+    - description: OpenStack Identity
+
+keystone_endpoint:
+  keystone.endpoint_present:
+    - name: keystone
+    - publicurl: http://{{ pillar['keystone']['server'] }}:5000/v2.0
+    - internalurl: http://{{ pillar['keystone']['server'] }}:5000/v2.0
+    - adminurl: http://{{ pillar['keystone']['server'] }}:35357/v2.0
+    - region: regionOne
+    - require:
+      - keystone: keystone_service
