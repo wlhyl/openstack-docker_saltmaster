@@ -107,7 +107,7 @@ Keystone_roles:
     - names:
       - admin
     - require:
-      - keystone :keystone_endpoint
+      - keystone: keystone_endpoint
 
 admin:
   keystone.user_present:
