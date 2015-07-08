@@ -45,10 +45,10 @@ keystone:
       - /opt/openstack/keystone/: /etc/keystone/
       - /opt/openstack/log/keystone/: /var/log/keystone/
     - ports:
-      "5000/tcp":
+      - "5000/tcp":
         HostIp: ""
         HostPort: "5000"
-      "35357/tcp":
+      - "35357/tcp":
         HostIp: ""
         HostPort: "35357"
   require:
