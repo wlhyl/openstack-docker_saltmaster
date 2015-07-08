@@ -8,12 +8,12 @@ mysql:
     - name: mysql
     - image: {{ pillar['docker']['registry'] }}/lzh/mariadb:kilo
     - environment:
-      - MYSQL_ROOT_PASSWORD: '123456'
+      - MYSQL_ROOT_PASSWORD: {{ pillar['mysql']['root_password'] }}
     - volumes:
       - /opt/openstack/mysql/: /var/lib/mysql/
     - ports:
         "3306/tcp":
            HostIp: ""
-           HostPort: "5000"
+           HostPort: "3306"
   require:
     - docker: {{ pillar['docker']['registry'] }}/lzh/mariadb

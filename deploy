@@ -1,1 +1,6 @@
+#!/bin/bash
+
+# 安装mysql
 result = `salt 'controller' state.sls mysql | awk -F':' '{print $2}' | sed 's/^[][ ]*//g'`
+
+# 安装keystone
