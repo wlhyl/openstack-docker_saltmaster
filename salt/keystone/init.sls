@@ -69,8 +69,11 @@ wait-keystone-port:
       - file: /tmp/wait-port.sh
       - docker: keystone
     - require_in:
+      - keystone: Keystone_tenants
+      - keystone: Keystone_roles
+      - keystone: admin
       - keystone: keystone_service
-      - keystone: keystone_endpoint
+      - keystone: keystone_endpoin
 
 keystone_service:
   keystone.service_present:
@@ -89,3 +92,32 @@ keystone_endpoint:
     - profile: {{ openstack_profile }}
     - require:
       - keystone: keystone_service
+
+Keystone_tenants:
+  keystone.tenant_present:
+    - names:
+      - admin
+      - service
+    - description: "Admin Project"
+    - require:
+      - keystone :keystone_endpoint
+
+Keystone_roles:
+  keystone.role_present:
+    - names:
+      - admin
+    - require:
+      - keystone :keystone_endpoint
+
+admin:
+  keystone.user_present:
+    - password: {{ pillar['keystone']['admin_pass'] }}
+    - email: {{ pillar['keystone']['email'] }}
+    - roles:
+      - admin:   # tenants
+        - admin  # roles
+      - service:
+        - admin
+    - require:
+      - keystone: Keystone_tenants
+      - keystone: Keystone_role
