@@ -4,3 +4,5 @@
 result = `salt 'controller' state.sls mysql | awk -F':' '{print $2}' | sed 's/^[][ ]*//g'`
 
 # 安装keystone
+
+# 安装glance
