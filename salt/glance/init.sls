@@ -91,6 +91,7 @@ glance_endpoint:
 
 glance_user:
   keystone.user_present:
+    - name: glance
     - password: "{{ pillar['glance']['glance_pass'] }}"
     - email: {{ pillar['glance']['email'] }}
     - roles:
