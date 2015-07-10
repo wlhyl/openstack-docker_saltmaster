@@ -7,3 +7,9 @@ docker run -d \
     -p 4506:4506 \
     -v /opt/salt:/etc/salt
     10.64.0.50:5000/lzh/salt-master
+
+# 配置openstack
+- salt 'con*' state.sls mysql
+- salt 'con*' state.sls glance
+- salt 'con*' state.sls rabbitmq
+- salt 'con*' state.sls nova-api
