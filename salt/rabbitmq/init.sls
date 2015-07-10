@@ -21,3 +21,11 @@ rabbitmq:
         - "25672/tcp":
                HostIp: ""
                HostPort: "25672"
+
+rabbitmq-user:
+  docker.run:
+    - name: rabbitmqctl add_user {{ pillar['rabbitmq']['rabbitmq_user'] }} {{ pillar['rabbitmq']['rabbitmq_pass'] }}
+    - cid: rabbitmq
+    - docked_unless: docker exec rabbitmq list_users | grep {{ pillar['rabbitmq']['rabbitmq_user'] }}
+    - require:
+      - docker: rabbitmq
