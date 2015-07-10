@@ -1,4 +1,4 @@
-rabbitmq-images:
+rabbitmq-image:
   docker.pulled:
     - name: rabbitmq
     - tag: 3.5.3
