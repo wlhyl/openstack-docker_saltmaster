@@ -43,7 +43,7 @@ rabbitmq-user:
     - cid: rabbitmq
     - docked_unless: docker exec rabbitmq list_users | grep {{ pillar['rabbitmq']['rabbitmq_user'] }}
 
-rabbitmq-premissions
+rabbitmq-premissions:
   docker.run:
     - name: rabbitmqctl set_permissions openstack ".*" ".*" ".*"
     - cid: rabbitmq
