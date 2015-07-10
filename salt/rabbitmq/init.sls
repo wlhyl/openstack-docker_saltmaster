@@ -1,5 +1,6 @@
 rabbitmq-images:
   docker.pulled:
+    - name: rabbitmq
     - tag: 3.5.3
     - require_in:
       - docker: rabbitmq
