@@ -86,9 +86,9 @@ nova_service:
 nova_endpoint:
   keystone.endpoint_present:
     - name: nova
-    - publicurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%\(tenant_id\)s
-    - internalurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%\(tenant_id\)s
-    - adminurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%\(tenant_id\)s
+    - publicurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%(tenant_id)s
+    - internalurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%(tenant_id)s
+    - adminurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%(tenant_id)s
     - region: regionOne
     - profile: {{ openstack_profile }}
     - require:
