@@ -37,7 +37,7 @@ nova-mysql:
 
 nova-api:
   docker.running:
-    - name: nova-api
+    - name: glance
     - image: {{ pillar['docker']['registry'] }}/lzh/nova-api:kilo
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
