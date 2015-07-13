@@ -48,6 +48,7 @@ nova-api:
       - RABBIT_PASSWORD: {{ pillar['nova']['rabbit_password'] }}
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
       - MY_IP: {{ pillar['nova']['my_ip'] }}
+      - NOVA_PASS: {{ pillar['nova']['nova_pass'] }}
       - GLANCE_ENDPOINT: {{ pillar['glance']['endpoint'] }}
     - volumes:
       - /opt/openstack/nova-api/: /etc/nova
