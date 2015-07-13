@@ -39,6 +39,7 @@ nova-api:
   docker.running:
     - name: nova-api
     - image: {{ pillar['docker']['registry'] }}/lzh/nova-api:kilo
+    - privileged: True
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
       - NOVA_DBPASS: {{ pillar['nova']['db_password'] }}
