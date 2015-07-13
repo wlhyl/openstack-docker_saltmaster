@@ -1,12 +1,12 @@
-{{ pillar['docker']['registry'] }}/lzh/nova-cert:
+{{ pillar['docker']['registry'] }}/lzh/nova-consoleauth:
   docker.pulled:
     - tag: kilo
     - insecure_registry: True
 
-nova-cert:
+nova-consoleauth:
   docker.running:
-    - name: nova-cert
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-cert:kilo
+    - name: nova-consoleauth
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-consoleauth:kilo
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
       - NOVA_DBPASS: {{ pillar['nova']['db_password'] }}
@@ -18,4 +18,4 @@ nova-cert:
       - /opt/openstack/nova-cert/: /etc/nova
       - /opt/openstack/log/nova-cert/: /var/log/nova/
     - require:
-      - docker: {{ pillar['docker']['registry'] }}/lzh/nova-cert
+      - docker: {{ pillar['docker']['registry'] }}/lzh/nova-consoleauth
