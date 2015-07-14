@@ -15,7 +15,6 @@ nova-consoleauth:
       - RABBIT_PASSWORD: {{ pillar['nova']['rabbit_password'] }}
       - MY_IP: {{ pillar['nova']['my_ip'] }}
     - volumes:
-      - /opt/openstack/nova-cert/: /etc/nova
-      - /opt/openstack/log/nova-cert/: /var/log/nova/
+      - /opt/openstack/log/nova-consoleauth/: /var/log/nova/
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/nova-consoleauth
