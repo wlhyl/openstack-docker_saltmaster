@@ -19,5 +19,6 @@ nova-compute:
       - GLANCE_ENDPOINT: {{ pillar['glance']['endpoint'] }}
     - volumes:
       - /opt/openstack/log/nova-compute/: /var/log/nova/
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/nova-compute
