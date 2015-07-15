@@ -50,6 +50,8 @@ nova-api:
       - MY_IP: {{ pillar['nova']['my_ip'] }}
       - NOVA_PASS: {{ pillar['nova']['nova_pass'] }}
       - GLANCE_ENDPOINT: {{ pillar['glance']['endpoint'] }}
+      - NEUTRON_ENDPOINT: {{ pillar['neutron']['endpoint'] }}
+      - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
     - volumes:
       - /opt/openstack/nova-api/: /etc/nova
       - /opt/openstack/log/nova-api/: /var/log/nova/
