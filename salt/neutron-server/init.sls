@@ -12,7 +12,7 @@ neutron-mysql:
     - name: neutron
     - password: "{{ pillar['neutron']['db_password'] }}"
     - require:
-      - mysql_database: nova-mysql
+      - mysql_database: neutron-mysql
     - connection_host: {{ pillar['mysql']['db_host'] }}
     - connection_user: root
     - connection_pass: "{{ pillar['mysql']['root_password'] }}"
