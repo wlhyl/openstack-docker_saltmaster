@@ -21,6 +21,7 @@ neutron-plugin-openvswitch-agent_docker:
 
 neutron-plugin-openvswitch-agent:
   pkg.installed:
+    - fromrepo: jessie-backports
     - require_in:
       - docker: neutron-plugin-openvswitch-agent_docker
   service.running:
