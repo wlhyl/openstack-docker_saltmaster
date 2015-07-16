@@ -14,7 +14,7 @@ neutron-plugin-openvswitch-agent:
       - RABBIT_PASSWORD: {{ pillar['neutron']['rabbit_password'] }}
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
-      - LOCAL_IP: {{ pillar['nova']['endpoint'] }}
+      - LOCAL_IP: {{ pillar[grains['id']['local_ip'] }}
     - volumes:
       - /opt/openstack/neutron-plugin-openvswitch-agent/: /etc/neutron/
       - /opt/openstack/log/neutron-plugin-openvswitch-agent/: /var/log/neutron/
