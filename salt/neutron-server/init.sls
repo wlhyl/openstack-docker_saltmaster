@@ -39,7 +39,6 @@ neutron-server:
   docker.running:
     - name: neutron-server
     - image: {{ pillar['docker']['registry'] }}/lzh/neutron-server:kilo
-    - privileged: True
     - environment:
       - NEUTRON_DB: {{ pillar['neutron']['db_host'] }}
       - NEUTRON_DBPASS: {{ pillar['neutron']['db_password'] }}

@@ -8,8 +8,50 @@ docker run -d \
     -v /opt/salt:/etc/salt
     10.64.0.50:5000/lzh/salt-master
 
-# 配置openstack
-- salt 'con*' state.sls mysql
-- salt 'con*' state.sls glance
-- salt 'con*' state.sls rabbitmq
-- salt 'con*' state.sls nova-api
+# 配置ntp
+#在docker server 上配置ntp client作好时间同步
+
+# 构建images
+cd kilo
+docker build -t lzh/openstackbase:kilo base
+docker build -t lzh/mariadb:kilo mariadb
+docker build -t lzh/keystone:kilo keystone
+docker build -t lzh/glance:kilo glance
+
+
+# 部署mysql
+salt 'con*' state.sls mysql
+
+# 部署keystone
+salt 'con*' state.sls keystone
+
+# 部署 glance
+salt 'con*' state.sls glance
+
+# 部署 rabbitmq
+salt 'con*' state.sls rabbitmq
+
+# 部署nova controller
+## 部署 nova-api
+salt 'con*' state.sls nova-api
+
+## 部署 nova-cert
+salt 'con*' state.sls nova-cert
+
+## 部署nova-consoleauth
+salt 'con*' state.sls nova-consoleauth
+
+## 部署nova-scheduler
+salt 'con*' state.sls nova-scheduler
+
+## 部署nova-conductor
+salt 'con*' state.sls nova-conductor
+
+## 部署nova-novncproxy
+salt 'con*' state.sls nova-novncproxy
+
+# 部署nova-compute
+salt 'com*' state.sls nova-compute
+
+# 部署neutron-server
+salt 'con*' state.sls neutron-server
