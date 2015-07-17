@@ -25,6 +25,7 @@ neutron-plugin-openvswitch-agent:
     - require_in:
       - docker: neutron-plugin-openvswitch-agent_docker
   service.running:
+    - name: neutron-openvswitch-agent
     - require:
       - docker: neutron-plugin-openvswitch-agent_docker
     - watch:
