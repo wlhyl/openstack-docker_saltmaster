@@ -30,7 +30,7 @@ nova-compute:
       - sysfsutils
     - fromrepo: jessie-backports
     - require_in:
-      - nova-compute_docker
+      - docker: nova-compute_docker
   service.running:
     - name: nova-compute
     - require:
