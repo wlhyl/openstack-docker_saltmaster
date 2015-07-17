@@ -64,3 +64,6 @@ salt 'con*' state.sls neutron-l3-agent
 
 # neutron-dhcp-agent
 salt 'con*' state.sls neutron-dhcp-agent
+
+# neutron-metadata-agent
+salt 'con*' state.sls neutron-metadata-agent
