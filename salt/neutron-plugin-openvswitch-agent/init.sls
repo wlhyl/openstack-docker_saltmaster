@@ -1,8 +1,3 @@
-{% set is_network = 0 %}
-{% if 'network' in grains['roles'] %}
-  {% set is_network = 1 %}
-{% endif%}
-
 {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent:
   docker.pulled:
     - tag: kilo
@@ -19,7 +14,6 @@ neutron-plugin-openvswitch-agent_docker:
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
       - LOCAL_IP: {{ pillar[grains['id']]['local_ip'] }}
-      - IS_NETWORK: {{ is_network }}
     - volumes:
       - /etc/neutron/: /etc/neutron/
     - require:
@@ -58,7 +52,9 @@ net.bridge.bridge-nf-call-iptables:
 net.bridge.bridge-nf-call-ip6tables:
   sysctl.present:
     - value: 1
+{% endif %}
 
+{% if 'network' in grains['roles'] %}
 br-ex:
   cmd.run:
     - name: ovs-vsctl add-br br-ex
