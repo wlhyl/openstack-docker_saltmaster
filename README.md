@@ -61,3 +61,6 @@ salt 'con*' state.sls neutron-plugin-openvswitch-agent
 
 # 部署 neutron-l3-agent
 salt 'con*' state.sls neutron-l3-agent
+
+# neutron-dhcp-agent
+salt 'con*' state.sls neutron-dhcp-agent
