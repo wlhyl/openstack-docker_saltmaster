@@ -1,3 +1,8 @@
+{% set is_network = 0 %}
+{% if 'network' in grains['roles'] %}
+  {% set is_network = 1 %}
+{% endif%}
+
 {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent:
   docker.pulled:
     - tag: kilo
@@ -14,6 +19,7 @@ neutron-plugin-openvswitch-agent_docker:
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
       - LOCAL_IP: {{ pillar[grains['id']]['local_ip'] }}
+      - IS_NETWORK: {{ is_network }}
     - volumes:
       - /etc/neutron/: /etc/neutron/
     - require:
@@ -31,9 +37,11 @@ neutron-plugin-openvswitch-agent:
     - watch:
       - docker: neutron-plugin-openvswitch-agent_docker
 
+{% if 'network' in grains['roles'] %}
 net.ipv4.ip_forward:
   sysctl.present:
     - value: 1
+{% endif %}
 
 net.ipv4.conf.all.rp_filter:
   sysctl.present:
@@ -41,6 +49,15 @@ net.ipv4.conf.all.rp_filter:
 net.ipv4.conf.default.rp_filter:
   sysctl.present:
     - value: 0
+
+{% if 'compute' in grains['roles'] %}
+net.bridge.bridge-nf-call-iptables:
+  sysctl.present:
+    - value: 1
+
+net.bridge.bridge-nf-call-ip6tables:
+  sysctl.present:
+    - value: 1
 
 br-ex:
   cmd.run:
@@ -50,3 +67,4 @@ br-ex:
       - pkg: neutron-plugin-openvswitch-agent
     - require_in:
       - service: neutron-plugin-openvswitch-agent
+{% endif %}

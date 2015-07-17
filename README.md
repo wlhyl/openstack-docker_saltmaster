@@ -1,3 +1,13 @@
+#节点有三种角色:
+- controller
+- compute
+- network
+
+# 设置节点角色
+salt 'net*' grains.setval roles "['network']"
+salt 'net*' grains.setval roles "['network', 'compute']"
+salt 'net*' grains.remove roles network
+
 # 运行salt-master
 变量：PILLAR_HTTP_ENDPOINT是 saltviewer 的地址
 docker run -d \

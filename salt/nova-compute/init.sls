@@ -2,12 +2,13 @@
   docker.pulled:
     - tag: kilo
     - insecure_registry: True
+    - require_in:
+      - docker: nova-compute_docker
 
-nova-compute:
+nova-compute_docker:
   docker.running:
     - name: nova-compute
     - image: {{ pillar['docker']['registry'] }}/lzh/nova-compute:kilo
-    - privileged: True
     - environment:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
@@ -17,8 +18,16 @@ nova-compute:
       - NOVA_PASS: {{ pillar['nova']['nova_pass'] }}
       - NOVNCPROXY_BASE_URL: {{ pillar['nova']['novncproxy_base_url'] }}
       - GLANCE_ENDPOINT: {{ pillar['glance']['endpoint'] }}
+      - NEUTRON_ENDPOINT: {{ pillar['neutron']['endpoint'] }}
+      - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
     - volumes:
-      - /opt/openstack/log/nova-compute/: /var/log/nova/
-    - network_mode: host
-    - require:
-      - docker: {{ pillar['docker']['registry'] }}/lzh/nova-compute
+      - /etc/nova/: /var/log/nova/
+
+nova-compute:
+  pkg.installed:
+    - pkgs:
+      - nova-compute
+      - sysfsutils
+    - fromrepo: jessie-backports
+    - require_in:
+      - nova-compute_docker
