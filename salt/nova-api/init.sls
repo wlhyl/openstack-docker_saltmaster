@@ -59,6 +59,9 @@ nova-api:
       - "8774/tcp":
               HostIp: ""
               HostPort: "8774"
+      - "8775/tcp":
+              HostIp: ""
+              HostPort: "8775"
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/nova-api
 
