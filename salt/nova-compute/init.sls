@@ -21,7 +21,7 @@ nova-compute_docker:
       - NEUTRON_ENDPOINT: {{ pillar['neutron']['endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
     - volumes:
-      - /etc/nova/: /var/log/nova/
+      - /etc/nova/: /etc/nova/
 
 nova-compute:
   pkg.installed:
