@@ -31,3 +31,9 @@ nova-compute:
     - fromrepo: jessie-backports
     - require_in:
       - nova-compute_docker
+   service.running:
+    - name: nova-compute
+    - require:
+      - docker: nova-compute_docker
+    - watch:
+      - docker: nova-compute_docker
