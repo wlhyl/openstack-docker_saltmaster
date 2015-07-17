@@ -55,3 +55,9 @@ salt 'com*' state.sls nova-compute
 
 # 部署neutron-server
 salt 'con*' state.sls neutron-server
+
+# 部署 neutron-plugin-openvswitch-agent
+salt 'con*' state.sls neutron-plugin-openvswitch-agent
+
+# 部署 neutron-l3-agent
+salt 'con*' state.sls neutron-l3-agent
