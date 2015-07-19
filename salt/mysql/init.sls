@@ -15,5 +15,5 @@ mysql:
         - "3306/tcp":
                HostIp: ""
                HostPort: "3306"
-  require:
-    - docker: {{ pillar['docker']['registry'] }}/lzh/mariadb
+    - require:
+      - docker: {{ pillar['docker']['registry'] }}/lzh/mariadb
