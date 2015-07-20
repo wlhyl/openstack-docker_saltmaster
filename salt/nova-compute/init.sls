@@ -23,6 +23,7 @@ nova-compute_docker:
     - volumes:
       - /etc/nova/: /etc/nova/
 
+{% if grains['os'] == 'Debian' %}
 nova-compute:
   pkg.installed:
     - pkgs:
@@ -37,3 +38,25 @@ nova-compute:
       - docker: nova-compute_docker
     - watch:
       - docker: nova-compute_docker
+{% endif %}
+
+{% if grains['os'] == 'CentOS' %}
+nova-compute:
+  pkg.installed:
+    - pkgs:
+      - openstack-nova-compute
+      - sysfsutils
+    - require_in:
+      - docker: nova-compute_docker
+  service.running:
+    - name: openstack-nova-compute
+    - require:
+      - docker: nova-compute_docker
+    - watch:
+      - docker: nova-compute_docker
+libvirtd:
+  service.running:
+    - name: libvirtd
+    - require:
+      - docker: nova-compute_docker
+{% endif %}
