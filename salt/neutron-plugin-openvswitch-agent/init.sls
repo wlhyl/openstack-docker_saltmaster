@@ -19,6 +19,7 @@ neutron-plugin-openvswitch-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent
 
+{% if grains['os'] == 'Debian' %}
 neutron-plugin-openvswitch-agent:
   pkg.installed:
     - fromrepo: jessie-backports
@@ -30,6 +31,34 @@ neutron-plugin-openvswitch-agent:
       - docker: neutron-plugin-openvswitch-agent_docker
     - watch:
       - docker: neutron-plugin-openvswitch-agent_docker
+{% endif %}
+
+{% if grains['os'] == 'CentOS' %}
+neutron-plugin-openvswitch-agent:
+  pkg.installed:
+    - pkgs:
+      - openstack-neutron 
+      - openstack-neutron-ml2
+      - openstack-neutron-openvswitch
+    - require_in:
+      - docker: neutron-plugin-openvswitch-agent_docker
+  service.running:
+    - name: neutron-openvswitch-agent
+    - enable: True
+    - require:
+      - docker: neutron-plugin-openvswitch-agent_docker
+    - watch:
+      - docker: neutron-plugin-openvswitch-agent_docker
+
+openvswitch:
+  service.running:
+    - name: openvswitch
+    - enable: True
+    - require:
+      - docker: neutron-plugin-openvswitch-agent_docker
+    - require_in:
+      - service: neutron-plugin-openvswitch-agent
+{% endif %}
 
 {% if 'network' in grains['roles'] %}
 net.ipv4.ip_forward:

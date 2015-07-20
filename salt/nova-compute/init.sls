@@ -50,6 +50,7 @@ nova-compute:
       - docker: nova-compute_docker
   service.running:
     - name: openstack-nova-compute
+    - enable: True
     - require:
       - docker: nova-compute_docker
     - watch:
@@ -57,6 +58,9 @@ nova-compute:
 libvirtd:
   service.running:
     - name: libvirtd
+    - enable: True
     - require:
       - docker: nova-compute_docker
+    - require_in:
+      - service: nova-compute
 {% endif %}
