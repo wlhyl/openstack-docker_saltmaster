@@ -83,7 +83,6 @@ net.bridge.bridge-nf-call-ip6tables:
     - value: 1
 {% endif %}
 
-{% if 'network' in grains['roles'] %}
 br-ex:
   cmd.run:
     - name: ovs-vsctl add-br br-ex
@@ -92,4 +91,3 @@ br-ex:
       - pkg: neutron-plugin-openvswitch-agent
     - require_in:
       - service: neutron-plugin-openvswitch-agent
-{% endif %}
