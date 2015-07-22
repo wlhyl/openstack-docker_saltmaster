@@ -62,19 +62,20 @@ salt 'con*' state.sls nova-novncproxy
 
 # 部署nova-compute
 salt 'com*' state.sls nova-compute
+salt 'com*' state.sls neutron-plugin-openvswitch-agent
 
 # 部署neutron-server
 salt 'con*' state.sls neutron-server
 
-# 部署 neutron-plugin-openvswitch-agent
+# 部署 network
+## 部署 neutron-plugin-openvswitch-agent
 salt 'net*' state.sls neutron-plugin-openvswitch-agent
-salt 'com*' state.sls neutron-plugin-openvswitch-agent
 
-# 部署 neutron-l3-agent
+## 部署 neutron-l3-agent
 salt 'net*' state.sls neutron-l3-agent
 
-# neutron-dhcp-agent
+## neutron-dhcp-agent
 salt 'net*' state.sls neutron-dhcp-agent
 
-# neutron-metadata-agent
+## neutron-metadata-agent
 salt 'net*' state.sls neutron-metadata-agent

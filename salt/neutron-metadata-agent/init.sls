@@ -27,7 +27,7 @@ neutron-metadata-agent:
     - require_in:
       - docker: neutron-metadata-agent_docker
   service.running:
-    - name: neutron-openvswitch-agent
+    - name: neutron-metadata-agent
     - require:
       - docker: neutron-metadata-agent_docker
     - watch:
