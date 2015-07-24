@@ -29,6 +29,8 @@ nova-compute:
     - pkgs:
       - nova-compute
       - sysfsutils
+      - libguestfs-tools
+      - python-guestfs
     - fromrepo: jessie-backports
     - require_in:
       - docker: nova-compute_docker
@@ -46,6 +48,7 @@ nova-compute:
     - pkgs:
       - openstack-nova-compute
       - sysfsutils
+      - libguestfs-tools
     - require_in:
       - docker: nova-compute_docker
   service.running:
