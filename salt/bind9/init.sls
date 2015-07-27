@@ -15,7 +15,7 @@ bind9:
                HostIp: ""
                HostPort: "53"
         - "53/udp":
-               HostIp: ""
+               HostIp: "0.0.0.0"
                HostPort: "53"
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/bind9
