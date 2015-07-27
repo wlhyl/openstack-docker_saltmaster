@@ -8,8 +8,8 @@ bind9:
     - name: bind9
     - image: {{ pillar['docker']['registry'] }}/lzh/bind9:kilo
     - environment:
-      - RNDC_KEY_SECRET: {{ pillar['keystone']['endpoint'] }}
-      - ALLOW_RNDC: user
+      - RNDC_KEY_SECRET: {{ pillar['bind9']['rndc_key_secret'] }}
+      - ALLOW_RNDC_HOST: {{ pillar['bind9']['allow_rndc_host'] }}
     - ports:
         - "53/tcp":
                HostIp: ""
