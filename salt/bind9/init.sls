@@ -14,7 +14,6 @@ bind9:
         - "53/tcp":
                HostIp: ""
                HostPort: "53"
-    - ports:
         - "53/udp":
                HostIp: ""
                HostPort: "53"
