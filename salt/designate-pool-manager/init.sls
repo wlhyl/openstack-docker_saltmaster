@@ -3,9 +3,9 @@
     - tag: kilo
     - insecure_registry: True
 
-designate-api:
+designate-pool-manager:
   docker.running:
-    - name: designate-api
+    - name: designate-pool-manager
     - image: {{ pillar['docker']['registry'] }}/lzh/designate-pool-manager:kilo
     - environment:
       - DESIGNATE_DB: {{ pillar['designate']['db_host'] }}
