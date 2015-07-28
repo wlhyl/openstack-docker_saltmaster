@@ -83,3 +83,4 @@ salt 'net*' state.sls neutron-metadata-agent
 # 配置designate
 salt 'con*' state.sls designate-api
 salt 'con*' state.sls designate-central
+salt 'con*' state.sls designate-pool-manager
