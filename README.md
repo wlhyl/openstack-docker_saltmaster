@@ -79,3 +79,7 @@ salt 'net*' state.sls neutron-dhcp-agent
 
 ## neutron-metadata-agent
 salt 'net*' state.sls neutron-metadata-agent
+
+# 配置designate
+salt 'con*' state.sls designate-api
+salt 'con*' state.sls designate-central
