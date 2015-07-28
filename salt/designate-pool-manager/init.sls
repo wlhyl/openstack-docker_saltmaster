@@ -1,3 +1,34 @@
+{% from "global/map.jinja" import openstack_profile with context %}
+
+designate-mysql:
+  mysql_database.present:
+    - name: designate
+    - connection_host: {{ pillar['mysql']['db_host'] }}
+    - connection_user: root
+    - connection_pass: "{{ pillar['mysql']['root_password'] }}"
+    - connection_charset: utf8
+  mysql_user.present:
+    - host: "%"
+    - name: designate
+    - password: "{{ pillar['designate']['db_password'] }}"
+    - require:
+      - mysql_database: designate-mysql
+    - connection_host: {{ pillar['mysql']['db_host'] }}
+    - connection_user: root
+    - connection_pass: "{{ pillar['mysql']['root_password'] }}"
+    - connection_charset: utf8
+  mysql_grants.present:
+    - grant: all
+    - database: "designate.*"
+    - user: designate
+    - host: "%"
+    - require_in:
+      - docker: designate-pool-manager
+    - connection_host: {{ pillar['mysql']['db_host'] }}
+    - connection_user: root
+    - connection_pass: "{{ pillar['mysql']['root_password'] }}"
+    - connection_charset: utf8
+
 {{ pillar['docker']['registry'] }}/lzh/designate-pool-manager:
   docker.pulled:
     - tag: kilo
