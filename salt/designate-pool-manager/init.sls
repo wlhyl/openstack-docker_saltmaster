@@ -1,8 +1,8 @@
 {% from "global/map.jinja" import openstack_profile with context %}
 
-designate-mysql:
+designate_pool_manager-mysql:
   mysql_database.present:
-    - name: designate
+    - name: designate_pool_manager
     - connection_host: {{ pillar['mysql']['db_host'] }}
     - connection_user: root
     - connection_pass: "{{ pillar['mysql']['root_password'] }}"
@@ -19,7 +19,7 @@ designate-mysql:
     - connection_charset: utf8
   mysql_grants.present:
     - grant: all
-    - database: "designate.*"
+    - database: "designate_pool_manager.*"
     - user: designate
     - host: "%"
     - require_in:
