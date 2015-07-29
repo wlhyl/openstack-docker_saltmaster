@@ -12,7 +12,7 @@ designate_pool_manager-mysql:
     - name: designate
     - password: "{{ pillar['designate']['db_password'] }}"
     - require:
-      - mysql_database: designate-mysql
+      - mysql_database: designate_pool_manager-mysql
     - connection_host: {{ pillar['mysql']['db_host'] }}
     - connection_user: root
     - connection_pass: "{{ pillar['mysql']['root_password'] }}"
@@ -22,6 +22,8 @@ designate_pool_manager-mysql:
     - database: "designate_pool_manager.*"
     - user: designate
     - host: "%"
+    - require:
+      - mysql_user: designate_pool_manager-mysql
     - require_in:
       - docker: designate-pool-manager
     - connection_host: {{ pillar['mysql']['db_host'] }}

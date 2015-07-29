@@ -22,6 +22,8 @@ nova-mysql:
     - database: "nova.*"
     - user: nova
     - host: "%"
+    - require:
+      - mysql_user: nova-mysql
     - require_in:
       - docker: nova-api
     - connection_host: {{ pillar['mysql']['db_host'] }}

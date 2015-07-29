@@ -22,6 +22,8 @@ keystone-mysql:
     - database: "keystone.*"
     - user: keystone
     - host: "%"
+    - require:
+      - mysql_user: keystone-mysql
     - require_in:
       - docker: keystone
     - connection_host: {{ pillar['mysql']['db_host'] }}

@@ -22,6 +22,8 @@ neutron-mysql:
     - database: "neutron.*"
     - user: neutron
     - host: "%"
+    - require:
+      - mysql_user: neutron-mysql
     - require_in:
       - docker: neutron-server
     - connection_host: {{ pillar['mysql']['db_host'] }}

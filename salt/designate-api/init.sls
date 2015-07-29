@@ -22,6 +22,8 @@ designate-mysql:
     - database: "designate.*"
     - user: designate
     - host: "%"
+    - require:
+      - mysql_user: designate-mysql
     - require_in:
       - docker: designate-api
     - connection_host: {{ pillar['mysql']['db_host'] }}

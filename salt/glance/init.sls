@@ -22,6 +22,8 @@ glance-mysql:
     - database: "glance.*"
     - user: glance
     - host: "%"
+    - require:
+      - mysql_user: glance-mysql
     - require_in:
       - docker: glance
     - connection_host: {{ pillar['mysql']['db_host'] }}
