@@ -85,9 +85,9 @@ designate_service:
 designate_endpoint:
   keystone.endpoint_present:
     - name: designate
-    - publicurl: http://{{ pillar['designate']['endpoint'] }}:9001/v2/
-    - internalurl: http://{{ pillar['designate']['endpoint'] }}:9001/v2/
-    - adminurl: http://{{ pillar['designate']['endpoint'] }}:9001/v2/
+    - publicurl: http://{{ pillar['designate']['endpoint'] }}:9001/v1/
+    - internalurl: http://{{ pillar['designate']['endpoint'] }}:9001/v1/
+    - adminurl: http://{{ pillar['designate']['endpoint'] }}:9001/v1/
     - region: regionOne
     - profile: {{ openstack_profile }}
     - require:
