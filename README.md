@@ -97,8 +97,8 @@ docker exec -it bind9 /bin/bash
 ```
 #### 添加zone
 ```bash
-rndc addzone ynnic.org '{ type slave; masters { MDNS_IP port 5354;}; \
-     file "slave.ynnic.org.DOMAIN_ID"; };
+rndc addzone ynnic.org '{ type slave; masters { *MDNS_IP* port 5354;}; \
+     file "slave.ynnic.org.*DOMAIN_ID*"; };
 ```
 如：
 ```bash
