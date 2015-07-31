@@ -26,12 +26,13 @@ docker run -d \
 #在docker server 上配置ntp client作好时间同步
 
 # 构建images
+```bash
 cd kilo
 docker build -t lzh/openstackbase:kilo base
 docker build -t lzh/mariadb:kilo mariadb
 docker build -t lzh/keystone:kilo keystone
 docker build -t lzh/glance:kilo glance
-
+```
 
 # 部署mysql
 salt 'con*' state.sls mysql
