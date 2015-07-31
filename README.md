@@ -80,7 +80,22 @@ salt 'net*' state.sls neutron-dhcp-agent
 ## neutron-metadata-agent
 salt 'net*' state.sls neutron-metadata-agent
 
-# 配置designate
+# 部署 designate
+## 部署 designate
+salt 'con*' state.sls bind9
 salt 'con*' state.sls designate-api
 salt 'con*' state.sls designate-central
+salt 'con*' state.sls designate-mdns
 salt 'con*' state.sls designate-pool-manager
+## 恢复 bind9
+### 启动bind9
+salt 'con*' state.sls bind9
+### 恢复 record
+```bash
+docker exec -it bind9 /bin/bash
+rndc addzone ynnic.org '{ type slave; masters { MDNS_IP port 5354;}; \
+     file "slave.ynnic.org.DOMAIN_ID"; };
+如：
+rndc addzone ynnic.org '{ type slave; masters { 10.64.0.52 port 5354;}; \
+     file "slave.ynnic.org.d04fa5e4-634a-493f-b31e-46098be8d793"; };
+```bash
