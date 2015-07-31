@@ -35,55 +35,85 @@ docker build -t lzh/glance:kilo glance
 ```
 
 # 部署mysql
+```bash
 salt 'con*' state.sls mysql
+```
 
 # 部署keystone
+```bash
 salt 'con*' state.sls keystone
+```
 
 # 部署 glance
+```bash
 salt 'con*' state.sls glance
+```
 
 # 部署 rabbitmq
+```bash
 salt 'con*' state.sls rabbitmq
+```
 
 # 部署nova controller
 ## 部署 nova-api
+```bash
 salt 'con*' state.sls nova-api
+```
 
 ## 部署 nova-cert
+```bash
 salt 'con*' state.sls nova-cert
+```
 
 ## 部署nova-consoleauth
+```bash
 salt 'con*' state.sls nova-consoleauth
+```
 
 ## 部署nova-scheduler
+```bash
 salt 'con*' state.sls nova-scheduler
+```
 
 ## 部署nova-conductor
 salt 'con*' state.sls nova-conductor
 
 ## 部署nova-novncproxy
+```bash
 salt 'con*' state.sls nova-novncproxy
+```
 
 # 部署nova-compute
+```bash
 salt 'com*' state.sls nova-compute
 salt 'com*' state.sls neutron-plugin-openvswitch-agent
+```
 
 # 部署neutron-server
+```bash
 salt 'con*' state.sls neutron-server
+```
 
 # 部署 network
 ## 部署 neutron-plugin-openvswitch-agent
+```bash
 salt 'net*' state.sls neutron-plugin-openvswitch-agent
+```
 
 ## 部署 neutron-l3-agent
+```bash
 salt 'net*' state.sls neutron-l3-agent
+```
 
 ## neutron-dhcp-agent
+```bash
 salt 'net*' state.sls neutron-dhcp-agent
+```
 
 ## neutron-metadata-agent
+```bash
 salt 'net*' state.sls neutron-metadata-agent
+```
 
 # 部署 designate
 ## 部署 designate
