@@ -91,11 +91,17 @@ salt 'con*' state.sls designate-pool-manager
 ### 启动bind9
 salt 'con*' state.sls bind9
 ### 恢复 record
+#### 进入bind9
 ```bash
 docker exec -it bind9 /bin/bash
+```
+#### 添加zone
+```bash
 rndc addzone ynnic.org '{ type slave; masters { MDNS_IP port 5354;}; \
      file "slave.ynnic.org.DOMAIN_ID"; };
+```
 如：
+```bash
 rndc addzone ynnic.org '{ type slave; masters { 10.64.0.52 port 5354;}; \
      file "slave.ynnic.org.d04fa5e4-634a-493f-b31e-46098be8d793"; };
 ```
