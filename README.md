@@ -4,12 +4,15 @@
 - network
 
 # 设置节点角色
+```bash
 salt 'net*' grains.setval roles "['network']"
 salt 'net*' grains.setval roles "['network', 'compute']"
 salt 'net*' grains.remove roles network
+```
 
 # 运行salt-master
 变量：PILLAR_HTTP_ENDPOINT是 saltviewer 的地址
+```bash
 docker run -d \
     -e PILLAR_HTTP_ENDPOINT=http://127.0.0.1/api/ \
     --name salt-master \
@@ -17,6 +20,7 @@ docker run -d \
     -p 4506:4506 \
     -v /opt/salt:/etc/salt
     10.64.0.50:5000/lzh/salt-master
+```
 
 # 配置ntp
 #在docker server 上配置ntp client作好时间同步
@@ -82,11 +86,13 @@ salt 'net*' state.sls neutron-metadata-agent
 
 # 部署 designate
 ## 部署 designate
+```bash
 salt 'con*' state.sls bind9
 salt 'con*' state.sls designate-api
 salt 'con*' state.sls designate-central
 salt 'con*' state.sls designate-mdns
 salt 'con*' state.sls designate-pool-manager
+```
 ## 恢复 bind9
 ### 启动bind9
 salt 'con*' state.sls bind9
