@@ -13,8 +13,6 @@ designate-central:
       - RABBIT_HOST: {{ pillar['designate']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['designate']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['designate']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
-      - DESIGNATE_PASS: {{ pillar['designate']['designate_pass'] }}
     - volumes:
       - /opt/openstack/designate-central/: /etc/designate
       - /opt/openstack/log/designate-central/: /var/log/designate/

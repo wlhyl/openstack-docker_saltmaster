@@ -46,8 +46,6 @@ designate-pool-manager:
       - RABBIT_HOST: {{ pillar['designate']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['designate']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['designate']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
-      - DESIGNATE_PASS: {{ pillar['designate']['designate_pass'] }}
     - volumes:
       - /opt/openstack/designate-pool-manager/: /etc/designate
       - /opt/openstack/log/designate-pool-manager/: /var/log/designate/
