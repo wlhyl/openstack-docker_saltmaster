@@ -23,7 +23,7 @@ docker run -d \
 ```
 
 # 配置ntp
-#在docker server 上配置ntp client作好时间同步
+在docker server 上配置ntp client作好时间同步
 
 # 构建images
 ```bash
