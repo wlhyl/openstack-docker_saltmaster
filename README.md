@@ -126,7 +126,9 @@ salt 'con*' state.sls designate-pool-manager
 ```
 ## 恢复 bind9
 ### 启动bind9
+```bash
 salt 'con*' state.sls bind9
+```
 ### 恢复 record
 #### 进入bind9
 ```bash
