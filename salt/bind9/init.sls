@@ -10,15 +10,6 @@ bind9:
     - environment:
       - RNDC_KEY_SECRET: {{ pillar['bind9']['rndc_key_secret'] }}
       - ALLOW_RNDC_HOST: {{ pillar['bind9']['allow_rndc_host'] }}
-    - ports:
-        - "53/tcp":
-               HostIp: ""
-               HostPort: "53"
-        - "53/udp":
-               HostIp: "0.0.0.0"
-               HostPort: "53"
-        - "953/tcp":
-               HostIp: ""
-               HostPort: "953"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/bind9
