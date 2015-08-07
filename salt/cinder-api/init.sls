@@ -88,9 +88,9 @@ cinder_service:
 cinder_endpoint:
   keystone.endpoint_present:
     - name: cinder
-    - publicurl: http://{{ pillar['cinder']['endpoint'] }}:8776/v2/%(tenant_id)s
-    - internalurl: http://{{ pillar['cinder']['endpoint'] }}:8776/v2/%(tenant_id)s
-    - adminurl: http://{{ pillar['cinder']['endpoint'] }}:8776/v2/%(tenant_id)s
+    - publicurl: http://{{ pillar['cinder']['public_endpoint'] }}:8776/v2/%(tenant_id)s
+    - internalurl: http://{{ pillar['cinder']['internal_endpoint'] }}:8776/v2/%(tenant_id)s
+    - adminurl: http://{{ pillar['cinder']['admin_endpoint'] }}:8776/v2/%(tenant_id)s
     - region: regionOne
     - profile: {{ openstack_profile }}
     - require:
@@ -106,9 +106,9 @@ cinderv2_service:
 cinderv2_endpoint:
   keystone.endpoint_present:
     - name: cinderv2
-    - publicurl: http://{{ pillar['cinder']['endpoint'] }}:8776/v2/%(tenant_id)s
-    - internalurl: http://{{ pillar['cinder']['endpoint'] }}:8776/v2/%(tenant_id)s
-    - adminurl: http://{{ pillar['cinder']['endpoint'] }}:8776/v2/%(tenant_id)s
+    - publicurl: http://{{ pillar['cinder']['public_endpoint'] }}:8776/v2/%(tenant_id)s
+    - internalurl: http://{{ pillar['cinder']['internal_endpoint'] }}:8776/v2/%(tenant_id)s
+    - adminurl: http://{{ pillar['cinder']['admin_endpoint'] }}:8776/v2/%(tenant_id)s
     - region: regionOne
     - profile: {{ openstack_profile }}
     - require:
