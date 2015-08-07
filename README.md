@@ -144,3 +144,13 @@ rndc addzone ynnic.org '{ type slave; masters { MDNS_IP port 5354;}; \
 rndc addzone ynnic.org '{ type slave; masters { 10.64.0.52 port 5354;}; \
      file "slave.ynnic.org.d04fa5e4-634a-493f-b31e-46098be8d793"; };
 ```
+
+# 部署 cinder
+## 部署 cinder-api
+```bash
+salt 'con*' state.sls cinder-api
+```
+## 部署 cinder-scheduler
+```bash
+salt 'con*' state.sls cinder-scheduler
+```

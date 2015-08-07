@@ -52,7 +52,7 @@ cinder-api:
       - CINDER_PASS: {{ pillar['cinder']['cinder_pass'] }}
     - volumes:
       - /opt/openstack/cinder-api/: /etc/cinder/
-      - /opt/openstack/log/cinder-api/: /var/log/ciner/
+      - /opt/openstack/log/cinder-api/: /var/log/cinder/
     - ports:
       - "8776/tcp":
               HostIp: ""
