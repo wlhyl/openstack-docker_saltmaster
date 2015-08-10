@@ -154,7 +154,7 @@ salt 'con*' state.sls cinder-api
 ```bash
 salt 'con*' state.sls cinder-scheduler
 ```
-# 部署cinder-volume
+## 部署cinder-volume
 ```bash
 salt 'cinder-volume*' state.sls cinder-volume
-salt
+```
