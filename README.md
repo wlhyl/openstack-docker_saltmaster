@@ -52,6 +52,11 @@ cat /etc/resolv.conf
 nameserver 10.64.0.52
 ```
 
+# 部署bind9作为本地dns代理server，后面部署designate时，将些dns server, 添加到desigante, 用作解析本地域名
+```bash
+salt 'con*' state.sls bind9
+```
+
 # 部署mysql
 ```bash
 salt 'con*' state.sls mysql

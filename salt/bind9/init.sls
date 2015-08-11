@@ -7,7 +7,6 @@ bind9:
   docker.running:
     - name: bind9
     - image: {{ pillar['docker']['registry'] }}/lzh/bind9:kilo
-    - privileged: True
     - environment:
       - RNDC_KEY_SECRET: {{ pillar['bind9']['rndc_key_secret'] }}
       - ALLOW_RNDC_HOST: {{ pillar['bind9']['allow_rndc_host'] }}
