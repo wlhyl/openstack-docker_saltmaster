@@ -68,8 +68,14 @@ salt 'con*' state.sls memcached
 ```
 
 # 部署keystone
+## 部署keystone
 ```bash
 salt 'con*' state.sls keystone
+```
+## 调整keystone使用v3 api
+```bash
+mv /etc/keystone/policy.json /etc/keystone/policy.v2.json
+cp /etc/keystone/policy.v3.json /etc/keystone/policy.json
 ```
 
 # 部署 glance
