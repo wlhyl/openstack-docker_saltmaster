@@ -9,5 +9,5 @@ memcached:
   docker.running:
     - name: memcached
     - image: memcached:1.4.24
-    - command: -m 64
+    - command: memcached -m 64
     - network_mode: host
