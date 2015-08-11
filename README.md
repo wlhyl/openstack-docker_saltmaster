@@ -62,9 +62,9 @@ salt 'con*' state.sls bind9
 salt 'con*' state.sls mysql
 ```
 
-# 部署memcache
+# 部署memcached
 ```bash
-salt 'con*' state.sls memcache
+salt 'con*' state.sls memcached
 ```
 
 # 部署keystone
