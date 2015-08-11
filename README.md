@@ -76,6 +76,7 @@ salt 'con*' state.sls keystone
 ```bash
 mv /etc/keystone/policy.json /etc/keystone/policy.v2.json
 cp /etc/keystone/policy.v3.json /etc/keystone/policy.json
+docker restart keystone
 ```
 
 # 部署 glance
