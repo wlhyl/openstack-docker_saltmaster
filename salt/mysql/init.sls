@@ -11,9 +11,6 @@ mysql:
       - MYSQL_ROOT_PASSWORD: {{ pillar['mysql']['root_password'] }}
     - volumes:
       - /opt/openstack/mysql/: /var/lib/mysql/
-    - ports:
-        - "3306/tcp":
-               HostIp: ""
-               HostPort: "3306"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/mariadb

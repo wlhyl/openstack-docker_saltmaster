@@ -3,7 +3,7 @@
 - compute
 - network
 
-# 设置节点角色
+# 设置节点角色, controller可以不用设置role
 ```bash
 salt 'net*' grains.setval roles "['network']"
 salt 'net*' grains.setval roles "['network', 'compute']"
@@ -34,9 +34,32 @@ docker build -t lzh/keystone:kilo keystone
 docker build -t lzh/glance:kilo glance
 ```
 
+# 设置初始dns
+## 编辑第一个节点/etc/hosts，添加如下几行，第一节点预先部署keystone, memcache, designate
+```bash
+10.64.0.52 keystone.ynnic.in
+10.64.0.52 keystone.ynnic.in
+10.64.0.52 keystone.ynnic.org
+10.64.0.52 memcache.ynnic.in
+10.64.0.52 db.ynnic.in
+10.64.0.52 designate.ynnic.in
+10.64.0.52 designate.ynnic.in
+10.64.0.52 designate.ynnic.org
+```
+## 设置dns server 为本地
+```bash
+cat /etc/resolv.conf 
+nameserver 10.64.0.52
+```
+
 # 部署mysql
 ```bash
 salt 'con*' state.sls mysql
+```
+
+# 部署memcache
+```bash
+salt 'con*' state.sls memcache
 ```
 
 # 部署keystone

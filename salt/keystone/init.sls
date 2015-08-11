@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import region with context %}
 
 keystone-mysql:
   mysql_database.present:
@@ -45,16 +46,11 @@ keystone:
       - KEYSTONE_DB: {{ pillar['keystone']['db_host'] }}
       - KEYSTONE_DBPASS: {{ pillar['keystone']['db_password'] }}
       - ADMIN_TOKEN: {{ pillar['keystone']['admin_token'] }}
+      - MEMCACHE_SERVER: {{ pillar['keystone']['memcache_server'] }}
     - volumes:
       - /opt/openstack/keystone/: /etc/keystone/
       - /opt/openstack/log/keystone/: /var/log/keystone/
-    - ports:
-      - "5000/tcp":
-              HostIp: ""
-              HostPort: "5000"
-      - "35357/tcp":
-              HostIp: ""
-              HostPort: "35357"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/keystone
 
@@ -87,10 +83,10 @@ keystone_service:
 keystone_endpoint:
   keystone.endpoint_present:
     - name: keystone
-    - publicurl: http://{{ pillar['keystone']['server'] }}:5000/v2.0
-    - internalurl: http://{{ pillar['keystone']['server'] }}:5000/v2.0
-    - adminurl: http://{{ pillar['keystone']['server'] }}:35357/v2.0
-    - region: regionOne
+    - publicurl: http://{{ pillar['keystone']['public_endpoint'] }}:5000/v3
+    - internalurl: http://{{ pillar['keystone']['internal_endpoint'] }}:5000/v3
+    - adminurl: http://{{ pillar['keystone']['admin_endpoint'] }}:35357/v3
+    - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
       - keystone: keystone_service
