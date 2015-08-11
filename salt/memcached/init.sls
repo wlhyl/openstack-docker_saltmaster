@@ -3,7 +3,7 @@ memcached-image:
     - name: memcached
     - tag: 1.4.24
     - require_in:
-      - docker: memcache
+      - docker: memcached
 
 memcached:
   docker.running:

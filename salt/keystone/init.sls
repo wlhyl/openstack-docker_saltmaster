@@ -46,7 +46,7 @@ keystone:
       - KEYSTONE_DB: {{ pillar['keystone']['db_host'] }}
       - KEYSTONE_DBPASS: {{ pillar['keystone']['db_password'] }}
       - ADMIN_TOKEN: {{ pillar['keystone']['admin_token'] }}
-      - MEMCACHE_SERVER: {{ pillar['keystone']['memcache_server'] }}
+      - MEMCACHE_SERVER: {{ pillar['keystone']['memcached_server'] }}
     - volumes:
       - /opt/openstack/keystone/: /etc/keystone/
       - /opt/openstack/log/keystone/: /var/log/keystone/
