@@ -40,7 +40,7 @@ docker build -t lzh/glance:kilo glance
 10.64.0.52 keystone.ynnic.in
 10.64.0.52 keystone.ynnic.in
 10.64.0.52 keystone.ynnic.org
-10.64.0.52 memcache.ynnic.in
+10.64.0.52 memcached.ynnic.in
 10.64.0.52 db.ynnic.in
 10.64.0.52 designate.ynnic.in
 10.64.0.52 designate.ynnic.in
