@@ -49,5 +49,6 @@ designate-pool-manager:
     - volumes:
       - /opt/openstack/designate-pool-manager/: /etc/designate
       - /opt/openstack/log/designate-pool-manager/: /var/log/designate/
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/designate-pool-manager
