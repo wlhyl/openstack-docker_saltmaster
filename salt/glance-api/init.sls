@@ -26,7 +26,7 @@ glance-mysql:
     - require:
       - mysql_user: glance-mysql
     - require_in:
-      - docker: glance
+      - docker: glance-api
     - connection_host: {{ pillar['mysql']['db_host'] }}
     - connection_user: root
     - connection_pass: "{{ pillar['mysql']['root_password'] }}"
