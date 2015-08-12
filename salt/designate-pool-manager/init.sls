@@ -1,5 +1,3 @@
-{% from "global/map.jinja" import openstack_profile with context %}
-
 designate_pool_manager-mysql:
   mysql_database.present:
     - name: designate_pool_manager
