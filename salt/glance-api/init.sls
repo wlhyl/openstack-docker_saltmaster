@@ -40,7 +40,7 @@ glance-mysql:
 
 glance-api:
   docker.running:
-    - name: glance
+    - name: glance-api
     - image: {{ pillar['docker']['registry'] }}/lzh/glance-api:kilo
     - environment:
       - GLANCE_DB: {{ pillar['glance']['db_host'] }}
@@ -54,7 +54,7 @@ glance-api:
       - /opt/openstack/images/: /var/lib/glance/images/
     - network_mode: host
     - require:
-      - docker: {{ pillar['docker']['registry'] }}/lzh/glance
+      - docker: {{ pillar['docker']['registry'] }}/lzh/glance-api
 
 /tmp/wait-port.sh:
   file.managed:
