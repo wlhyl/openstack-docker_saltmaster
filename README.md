@@ -118,7 +118,33 @@ rndc addzone ynnic.org '{ type slave; masters { MDNS_IP port 5354;}; \
 rndc addzone ynnic.org '{ type slave; masters { 10.64.0.52 port 5354;}; \
      file "slave.ynnic.org.d04fa5e4-634a-493f-b31e-46098be8d793"; };
 ```
-
+## 解析ynnic.in
+### 设置
+```bash
+designate server-create --name ns.ynnic.in.
+designate domain-create --name ynnic.in. --email mail@ynnic.in
+designate domain-create --name 0.64.10.in-addr.arpa. --email mail@ynnic.in
+designate record-create --name ns --type A --data 10.64.0.52 c43f5fff-35a1-4ae6-96b1-40eb24d585b1
+designate record-create --name 52 --type PTR --data controller.ynnic.in. 979588b2-b533-4fa5-a007-dd4141f162a3
+```
+### 需要解析的域名
+```bash
+10.64.0.52 designate.ynnic.org
+10.64.0.52 designate.ynnic.in
+10.64.0.52 keystone.ynnic.org
+10.64.0.52 keystone.ynnic.in
+10.64.0.52 keystone.ynnic.in
+10.64.0.52 designate.ynnic.in
+10.64.0.52 memcached.ynnic.in
+10.64.0.52 db.ynnic.in
+10.64.0.52 rabbit.ynnic.in
+10.64.0.52 keystone.ynnic.in
+10.64.0.52 designate.ynnic.in
+10.64.0.52 glance.ynnic.in
+10.64.0.52 nova.ynnic.in
+10.64.0.52 neutron.ynnic.in
+10.64.0.52 cinder.ynnic.in
+```
 
 # 部署 glance
 ```bash

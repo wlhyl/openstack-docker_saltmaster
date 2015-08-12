@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import region with context %}
 
 designate-mysql:
   mysql_database.present:
@@ -86,7 +87,7 @@ designate_endpoint:
     - publicurl: http://{{ pillar['designate']['public_endpoint'] }}:9001/v1/
     - internalurl: http://{{ pillar['designate']['internal_endpoint'] }}:9001/v1/
     - adminurl: http://{{ pillar['designate']['admin_endpoint'] }}:9001/v1/
-    - region: regionOne
+    - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
       - keystone: designate_service

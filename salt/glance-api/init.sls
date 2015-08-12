@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import region with context %}
 
 glance-mysql:
   mysql_database.present:
@@ -32,28 +33,26 @@ glance-mysql:
     - connection_charset: utf8
 
 
-{{ pillar['docker']['registry'] }}/lzh/glance:
+{{ pillar['docker']['registry'] }}/lzh/glance-api:
   docker.pulled:
     - tag: kilo
     - insecure_registry: True
 
-glance:
+glance-api:
   docker.running:
     - name: glance
-    - image: {{ pillar['docker']['registry'] }}/lzh/glance:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/glance-api:kilo
     - environment:
       - GLANCE_DB: {{ pillar['glance']['db_host'] }}
       - GLANCE_DBPASS: {{ pillar['glance']['db_password'] }}
-      - KEYSTONE_SERVER: {{ pillar['keystone']['server'] }}
+      - KEYSTONE_INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - GLANCE_PASS: {{ pillar['glance']['glance_pass'] }}
     - volumes:
       - /opt/openstack/glance/: /etc/glance/
       - /opt/openstack/log/glance/: /var/log/glance/
       - /opt/openstack/images/: /var/lib/glance/images/
-    - ports:
-      - "9292/tcp":
-              HostIp: ""
-              HostPort: "9292"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/glance
 
@@ -64,7 +63,7 @@ glance:
 
 wait-keystone-port:
   cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["server"] }} 35357
+    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["admin_endpoint"] }} 35357
     - stateful: True
     - require:
       - file: /tmp/wait-port.sh
@@ -83,10 +82,10 @@ glance_service:
 glance_endpoint:
   keystone.endpoint_present:
     - name: glance
-    - publicurl: http://{{ pillar['glance']['endpoint'] }}:9292
-    - internalurl: http://{{ pillar['glance']['endpoint'] }}:9292
-    - adminurl: http://{{ pillar['glance']['endpoint'] }}:9292
-    - region: regionOne
+    - publicurl: http://{{ pillar['glance']['public_endpoint'] }}:9292
+    - internalurl: http://{{ pillar['glance']['internal_endpoint'] }}:9292
+    - adminurl: http://{{ pillar['glance']['admin_endpoint'] }}:9292
+    - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
       - keystone: glance_service
