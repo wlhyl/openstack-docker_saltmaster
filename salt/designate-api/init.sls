@@ -64,7 +64,7 @@ designate-api:
 
 wait-keystone-port:
   cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["server"] }} 35357
+    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["admin_endpoint"] }} 35357
     - stateful: True
     - require:
       - file: /tmp/wait-port.sh
