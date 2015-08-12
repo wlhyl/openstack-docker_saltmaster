@@ -16,5 +16,6 @@ designate-central:
     - volumes:
       - /opt/openstack/designate-central/: /etc/designate
       - /opt/openstack/log/designate-central/: /var/log/designate/
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/designate-central
