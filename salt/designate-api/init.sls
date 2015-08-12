@@ -47,15 +47,13 @@ designate-api:
       - RABBIT_HOST: {{ pillar['designate']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['designate']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['designate']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
+      - INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - DESIGNATE_PASS: {{ pillar['designate']['designate_pass'] }}
     - volumes:
       - /opt/openstack/designate-api/: /etc/designate
       - /opt/openstack/log/designate-api/: /var/log/designate/
-    - ports:
-      - "9001/tcp":
-              HostIp: ""
-              HostPort: "9001"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/designate-api
 
@@ -85,9 +83,9 @@ designate_service:
 designate_endpoint:
   keystone.endpoint_present:
     - name: designate
-    - publicurl: http://{{ pillar['designate']['endpoint'] }}:9001/v1/
-    - internalurl: http://{{ pillar['designate']['endpoint'] }}:9001/v1/
-    - adminurl: http://{{ pillar['designate']['endpoint'] }}:9001/v1/
+    - publicurl: http://{{ pillar['designate']['public_endpoint'] }}:9001/v1/
+    - internalurl: http://{{ pillar['designate']['internal_endpoint'] }}:9001/v1/
+    - adminurl: http://{{ pillar['designate']['admin_endpoint'] }}:9001/v1/
     - region: regionOne
     - profile: {{ openstack_profile }}
     - require:

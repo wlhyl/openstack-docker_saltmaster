@@ -45,6 +45,7 @@ docker build -t lzh/glance:kilo glance
 10.64.0.52 designate.ynnic.in
 10.64.0.52 designate.ynnic.in
 10.64.0.52 designate.ynnic.org
+10.64.0.52 rabbit.ynnic.in
 ```
 ## 设置dns server 为本地
 ```bash
@@ -77,16 +78,51 @@ salt 'con*' state.sls keystone
 mv /etc/keystone/policy.json /etc/keystone/policy.v2.json
 cp /etc/keystone/policy.v3.json /etc/keystone/policy.json
 docker restart keystone
-```
 
-# 部署 glance
-```bash
-salt 'con*' state.sls glance
+export OS_TOKEN=lzh
+export OS_URL=http://10.64.0.52:35357/v3
+openstack  --os-identity-api-version 3 role add --user admin --domain default admin
 ```
 
 # 部署 rabbitmq
 ```bash
 salt 'con*' state.sls rabbitmq
+```
+
+# 部署 designate
+## 部署 designate
+```bash
+salt 'con*' state.sls bind9
+salt 'con*' state.sls designate-api
+salt 'con*' state.sls designate-central
+salt 'con*' state.sls designate-mdns
+salt 'con*' state.sls designate-pool-manager
+```
+## 恢复 bind9
+### 启动bind9
+```bash
+salt 'con*' state.sls bind9
+```
+### 恢复 record
+#### 进入bind9
+```bash
+docker exec -it bind9 /bin/bash
+```
+#### 添加zone
+```bash
+rndc addzone ynnic.org '{ type slave; masters { MDNS_IP port 5354;}; \
+     file "slave.ynnic.org.DOMAIN_ID"; };
+```
+如：
+```bash
+rndc addzone ynnic.org '{ type slave; masters { 10.64.0.52 port 5354;}; \
+     file "slave.ynnic.org.d04fa5e4-634a-493f-b31e-46098be8d793"; };
+```
+
+
+# 部署 glance
+```bash
+salt 'con*' state.sls glance
 ```
 
 # 部署nova controller
@@ -148,36 +184,6 @@ salt 'net*' state.sls neutron-dhcp-agent
 ## neutron-metadata-agent
 ```bash
 salt 'net*' state.sls neutron-metadata-agent
-```
-
-# 部署 designate
-## 部署 designate
-```bash
-salt 'con*' state.sls bind9
-salt 'con*' state.sls designate-api
-salt 'con*' state.sls designate-central
-salt 'con*' state.sls designate-mdns
-salt 'con*' state.sls designate-pool-manager
-```
-## 恢复 bind9
-### 启动bind9
-```bash
-salt 'con*' state.sls bind9
-```
-### 恢复 record
-#### 进入bind9
-```bash
-docker exec -it bind9 /bin/bash
-```
-#### 添加zone
-```bash
-rndc addzone ynnic.org '{ type slave; masters { MDNS_IP port 5354;}; \
-     file "slave.ynnic.org.DOMAIN_ID"; };
-```
-如：
-```bash
-rndc addzone ynnic.org '{ type slave; masters { 10.64.0.52 port 5354;}; \
-     file "slave.ynnic.org.d04fa5e4-634a-493f-b31e-46098be8d793"; };
 ```
 
 # 部署 cinder
