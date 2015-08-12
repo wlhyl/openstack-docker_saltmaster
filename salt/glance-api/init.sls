@@ -49,8 +49,8 @@ glance-api:
       - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - GLANCE_PASS: {{ pillar['glance']['glance_pass'] }}
     - volumes:
-      - /opt/openstack/glance/: /etc/glance/
-      - /opt/openstack/log/glance/: /var/log/glance/
+      - /opt/openstack/glance-api/: /etc/glance/
+      - /opt/openstack/log/glance-api/: /var/log/glance/
       - /opt/openstack/images/: /var/lib/glance/images/
     - network_mode: host
     - require:

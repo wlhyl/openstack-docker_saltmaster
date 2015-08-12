@@ -148,7 +148,8 @@ designate record-create --name 52 --type PTR --data controller.ynnic.in. 979588b
 
 # 部署 glance
 ```bash
-salt 'con*' state.sls glance
+salt 'con*' state.sls glance-api
+salt 'con*' state.sls glance-registry
 ```
 
 # 部署nova controller
