@@ -11,7 +11,6 @@ nova-novncproxy:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['nova']['rabbit_password'] }}
-      - VNCSERVER_PROXYCLIENT_ADDRESS: {{ pillar['nova']['vncserver_proxyclient_address'] }}
       - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
     - volumes:
       - /opt/openstack/nova-novncproxy/: /etc/nova/
