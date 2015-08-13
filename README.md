@@ -153,31 +153,12 @@ salt 'con*' state.sls glance-registry
 ```
 
 # 部署nova controller
-## 部署 nova-api
 ```bash
 salt 'con*' state.sls nova-api
-```
-
-## 部署 nova-cert
-```bash
 salt 'con*' state.sls nova-cert
-```
-
-## 部署nova-consoleauth
-```bash
-salt 'con*' state.sls nova-consoleauth
-```
-
-## 部署nova-scheduler
-```bash
-salt 'con*' state.sls nova-scheduler
-```
-
-## 部署nova-conductor
 salt 'con*' state.sls nova-conductor
-
-## 部署nova-novncproxy
-```bash
+salt 'con*' state.sls nova-consoleauth
+salt 'con*' state.sls nova-scheduler
 salt 'con*' state.sls nova-novncproxy
 ```
 
