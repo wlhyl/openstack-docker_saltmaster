@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import region with context %}
 
 nova-mysql:
   mysql_database.present:
@@ -48,23 +49,18 @@ nova-api:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['nova']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
-      - MY_IP: {{ pillar['nova']['my_ip'] }}
+      - KEYSTONE_INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
+      - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
       - NOVA_PASS: {{ pillar['nova']['nova_pass'] }}
-      - GLANCE_ENDPOINT: {{ pillar['glance']['endpoint'] }}
-      - NEUTRON_ENDPOINT: {{ pillar['neutron']['endpoint'] }}
+      - GLANCE_HOST: {{ pillar['glance']['internal_endpoint'] }}
+      - NEUTRON_INTERNAL_ENDPOINT: {{ pillar['neutron']['internal_endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
       - METADATA_PROXY_SHARED_SECRET: {{ pillar['neutron']['metadata_proxy_shared_secret'] }}
     - volumes:
       - /opt/openstack/nova-api/: /etc/nova
       - /opt/openstack/log/nova-api/: /var/log/nova/
-    - ports:
-      - "8774/tcp":
-              HostIp: ""
-              HostPort: "8774"
-      - "8775/tcp":
-              HostIp: ""
-              HostPort: "8775"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/nova-api
 
@@ -75,7 +71,7 @@ nova-api:
 
 wait-keystone-port:
   cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["server"] }} 35357
+    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["internal_endpoint"] }} 35357
     - stateful: True
     - require:
       - file: /tmp/wait-port.sh
@@ -94,10 +90,10 @@ nova_service:
 nova_endpoint:
   keystone.endpoint_present:
     - name: nova
-    - publicurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%(tenant_id)s
-    - internalurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%(tenant_id)s
-    - adminurl: http://{{ pillar['nova']['endpoint'] }}:8774/v2/%(tenant_id)s
-    - region: regionOne
+    - publicurl: http://{{ pillar['nova']['public_endpoint'] }}:8774/v2/%(tenant_id)s
+    - internalurl: http://{{ pillar['nova']['internal_endpoint'] }}:8774/v2/%(tenant_id)s
+    - adminurl: http://{{ pillar['nova']['admin_endpoint'] }}:8774/v2/%(tenant_id)s
+    - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
       - keystone: nova_service
