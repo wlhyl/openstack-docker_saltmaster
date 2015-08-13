@@ -13,8 +13,10 @@ nova-consoleauth:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['nova']['rabbit_password'] }}
-      - MY_IP: {{ pillar['nova']['my_ip'] }}
+      - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
     - volumes:
+      - /opt/openstack/nova-consoleauth/: /etc/nova/
       - /opt/openstack/log/nova-consoleauth/: /var/log/nova/
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/nova-consoleauth

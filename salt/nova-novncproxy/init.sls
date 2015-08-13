@@ -12,12 +12,10 @@ nova-novncproxy:
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['nova']['rabbit_password'] }}
       - VNCSERVER_PROXYCLIENT_ADDRESS: {{ pillar['nova']['vncserver_proxyclient_address'] }}
-      - MY_IP: {{ pillar['nova']['my_ip'] }}
+      - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
     - volumes:
+      - /opt/openstack/nova-novncproxy/: /etc/nova/
       - /opt/openstack/log/nova-novncproxy/: /var/log/nova/
-    - ports:
-      - "6080/tcp":
-              HostIp: ""
-              HostPort: "6080"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/nova-novncproxy
