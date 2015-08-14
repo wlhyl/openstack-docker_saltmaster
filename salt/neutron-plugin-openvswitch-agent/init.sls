@@ -11,7 +11,8 @@ neutron-plugin-openvswitch-agent_docker:
       - RABBIT_HOST: {{ pillar['neutron']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['neutron']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['neutron']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
+      - KEYSTONE_INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
       - LOCAL_IP: {{ pillar[grains['id']]['local_ip'] }}
     - volumes:
@@ -27,6 +28,7 @@ neutron-plugin-openvswitch-agent:
       - docker: neutron-plugin-openvswitch-agent_docker
   service.running:
     - name: neutron-openvswitch-agent
+    - enable: True
     - require:
       - docker: neutron-plugin-openvswitch-agent_docker
     - watch:
