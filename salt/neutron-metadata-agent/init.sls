@@ -12,9 +12,10 @@ neutron-metadata-agent_docker:
       - RABBIT_USERID: {{ pillar['neutron']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['neutron']['rabbit_password'] }}
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
-      - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
+      - KEYSTONE_INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - LOCAL_IP: {{ pillar[grains['id']]['local_ip'] }}
-      - NOVA_ENDPOINT: {{ pillar['nova']['endpoint'] }}
+      - NOVA_METADATA_IP: {{ pillar['nova']['internal_endpoint'] }}
       - METADATA_PROXY_SHARED_SECRET: {{ pillar['neutron']['metadata_proxy_shared_secret'] }}
     - volumes:
       - /etc/neutron/: /etc/neutron/
