@@ -15,7 +15,7 @@ neutron-metadata-agent_docker:
       - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
       - LOCAL_IP: {{ pillar[grains['id']]['local_ip'] }}
-      - NOVA_ENDPOINT: {{ pillar['nova']['internal_endpoint'] }}
+      - NOVA_METADATA_IP: {{ pillar['nova']['internal_endpoint'] }}
       - METADATA_PROXY_SHARED_SECRET: {{ pillar['neutron']['metadata_proxy_shared_secret'] }}
     - volumes:
       - /etc/neutron/: /etc/neutron/
