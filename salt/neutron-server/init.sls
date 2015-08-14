@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import region with context %}
 
 neutron-mysql:
   mysql_database.present:
@@ -47,17 +48,16 @@ neutron-server:
       - RABBIT_HOST: {{ pillar['neutron']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['neutron']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['neutron']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
+      - KEYSTONE_INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
       - NOVA_PASS: {{ pillar['nova']['nova_pass'] }}
-      - NOVA_URL: {{ pillar['nova']['endpoint'] }}
+      - NOVA_URL: {{ pillar['nova']['internal_endpoint'] }}
+      - REGION_NAME: {{ region }}
     - volumes:
       - /opt/openstack/neutron-server/: /etc/neutron/
       - /opt/openstack/log/neutron-server/: /var/log/neutron/
-    - ports:
-      - "9696/tcp":
-              HostIp: ""
-              HostPort: "9696"
+    - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-server
 
@@ -68,7 +68,7 @@ neutron-server:
 
 wait-keystone-port:
   cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["server"] }} 35357
+    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["admin_endpoint"] }} 35357
     - stateful: True
     - require:
       - file: /tmp/wait-port.sh
@@ -87,10 +87,10 @@ neutron_service:
 neutron_endpoint:
   keystone.endpoint_present:
     - name: neutron
-    - publicurl: http://{{ pillar['neutron']['endpoint'] }}:9696
-    - internalurl: http://{{ pillar['neutron']['endpoint'] }}:9696
-    - adminurl: http://{{ pillar['neutron']['endpoint'] }}:9696
-    - region: regionOne
+    - publicurl: http://{{ pillar['neutron']['public_endpoint'] }}:9696
+    - internalurl: http://{{ pillar['neutron']['internal_endpoint'] }}:9696
+    - adminurl: http://{{ pillar['neutron']['admin_endpoint'] }}:9696
+    - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
       - keystone: neutron_service
