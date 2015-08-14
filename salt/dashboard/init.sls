@@ -11,5 +11,7 @@ openstack-dashboard:
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['public_endpoint'] }}
       - OPENSTACK_KEYSTONE_DEFAULT_ROLE: user
     - network_mode: host
+    - volumes:
+      - /opt/openstack/openstack-dashboard: /etc/openstack-dashboard
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/openstack-dashboard
