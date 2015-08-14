@@ -13,12 +13,13 @@ nova-compute_docker:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['nova']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
+      - KEYSTONE_INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
       - NOVA_PASS: {{ pillar['nova']['nova_pass'] }}
       - NOVNCPROXY_BASE_URL: {{ pillar['nova']['novncproxy_base_url'] }}
-      - GLANCE_ENDPOINT: {{ pillar['glance']['endpoint'] }}
-      - NEUTRON_ENDPOINT: {{ pillar['neutron']['endpoint'] }}
+      - GLANCE_HOST: {{ pillar['glance']['internal_endpoint'] }}
+      - NEUTRON_INTERNAL_ENDPOINT: {{ pillar['neutron']['internal_endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
     - volumes:
       - /etc/nova/: /etc/nova/
@@ -36,6 +37,7 @@ nova-compute:
       - docker: nova-compute_docker
   service.running:
     - name: nova-compute
+    - enable: True
     - require:
       - docker: nova-compute_docker
     - watch:
