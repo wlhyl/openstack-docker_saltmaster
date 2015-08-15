@@ -15,10 +15,11 @@ cinder-volume_docker:
       - RABBIT_HOST: {{ pillar['cinder']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['cinder']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['cinder']['rabbit_password'] }}
-      - KEYSTONE_ENDPOINT: {{ pillar['keystone']['endpoint'] }}
+      - KEYSTONE_INTERNAL_ENDPOINT: {{ pillar['keystone']['internal_endpoint'] }}
+      - KEYSTONE_ADMIN_ENDPOINT: {{ pillar['keystone']['admin_endpoint'] }}
       - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
       - CINDER_PASS: {{ pillar['cinder']['cinder_pass'] }}
-      - GLANCE_ENDPOINT: {{ pillar['glance']['endpoint'] }}
+      - GLANCE_HOST: {{ pillar['glance']['internal_endpoint'] }}
     - volumes:
       - /etc/cinder/: /etc/cinder/
 
