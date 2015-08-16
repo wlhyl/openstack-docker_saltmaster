@@ -108,7 +108,7 @@ cinderv2_endpoint:
     - publicurl: http://{{ pillar['cinder']['public_endpoint'] }}:8776/v2/%(tenant_id)s
     - internalurl: http://{{ pillar['cinder']['internal_endpoint'] }}:8776/v2/%(tenant_id)s
     - adminurl: http://{{ pillar['cinder']['admin_endpoint'] }}:8776/v2/%(tenant_id)s
-    - region: regionOne
+    - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
       - keystone: cinderv2_service
