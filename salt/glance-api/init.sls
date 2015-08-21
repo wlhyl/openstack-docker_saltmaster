@@ -52,6 +52,7 @@ glance-api:
       - /opt/openstack/glance-api/: /etc/glance/
       - /opt/openstack/log/glance-api/: /var/log/glance/
       - /opt/openstack/images/: /var/lib/glance/images/
+      - /etc/ceph: /etc/ceph
     - network_mode: host
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/glance-api
