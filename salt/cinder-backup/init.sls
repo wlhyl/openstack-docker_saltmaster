@@ -12,8 +12,8 @@ cinder-backup:
       - RABBIT_USERID: {{ pillar['cinder']['rabbit_userid'] }}
       - RABBIT_PASSWORD: {{ pillar['cinder']['rabbit_password'] }}
     - volumes:
-      - /opt/openstack/cinder-scheduler/: /etc/cinder/
-      - /opt/openstack/log/cinder-scheduler/: /var/log/cinder/
+      - /opt/openstack/cinder-backup/: /etc/cinder/
+      - /opt/openstack/log/cinder-backup/: /var/log/cinder/
       - /etc/ceph: /etc/ceph
     - network_mode: host
     - require:
