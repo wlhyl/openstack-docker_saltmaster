@@ -29,6 +29,7 @@ cinder-volume:
     - pkgs:
       - cinder-volume 
       - python-mysqldb
+      - ceph-common
     - fromrepo: jessie-backports
     - require_in:
       - docker: cinder-volume_docker

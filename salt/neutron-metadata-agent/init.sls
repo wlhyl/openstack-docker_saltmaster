@@ -1,3 +1,5 @@
+{% from "global/map.jinja" import region with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/neutron-metadata-agent:
   docker.pulled:
     - tag: kilo
@@ -17,6 +19,7 @@ neutron-metadata-agent_docker:
       - LOCAL_IP: {{ pillar[grains['id']]['local_ip'] }}
       - NOVA_METADATA_IP: {{ pillar['nova']['internal_endpoint'] }}
       - METADATA_PROXY_SHARED_SECRET: {{ pillar['neutron']['metadata_proxy_shared_secret'] }}
+      - AUTH_REGION: {{ region }}
     - volumes:
       - /etc/neutron/: /etc/neutron/
     - require:
