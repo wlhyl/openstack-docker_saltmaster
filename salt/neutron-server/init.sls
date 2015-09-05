@@ -61,22 +61,6 @@ neutron-server:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-server
 
-/tmp/wait-port.sh:
-  file.managed:
-    - source: salt://keystone/files/wait-port.sh
-    - template: jinja
-
-wait-keystone-port:
-  cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["admin_endpoint"] }} 35357
-    - stateful: True
-    - require:
-      - file: /tmp/wait-port.sh
-    - require_in:
-      - keystone: neutron_user
-      - keystone: neutron_service
-      - keystone: neutron_endpoint
-
 neutron_service:
   keystone.service_present:
     - name: neutron

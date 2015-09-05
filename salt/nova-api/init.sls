@@ -64,22 +64,6 @@ nova-api:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/nova-api
 
-/tmp/wait-port.sh:
-  file.managed:
-    - source: salt://keystone/files/wait-port.sh
-    - template: jinja
-
-wait-keystone-port:
-  cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["internal_endpoint"] }} 35357
-    - stateful: True
-    - require:
-      - file: /tmp/wait-port.sh
-    - require_in:
-      - keystone: nova_user
-      - keystone: nova_service
-      - keystone: nova_endpoint
-
 nova_service:
   keystone.service_present:
     - name: nova

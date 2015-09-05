@@ -57,22 +57,6 @@ glance-api:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/glance-api
 
-/tmp/wait-port.sh:
-  file.managed:
-    - source: salt://keystone/files/wait-port.sh
-    - template: jinja
-
-wait-keystone-port:
-  cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 150 {{ pillar["keystone"]["admin_endpoint"] }} 35357
-    - stateful: True
-    - require:
-      - file: /tmp/wait-port.sh
-    - require_in:
-      - keystone: glance_user
-      - keystone: glance_service
-      - keystone: glance_endpoint
-
 glance_service:
   keystone.service_present:
     - name: glance
