@@ -13,17 +13,17 @@ rabbitmq:
       - RABBITMQ_ERLANG_COOKIE: {{ pillar['rabbitmq']['rabbitmq_erlang_cookie'] }}
     - network_mode: host
 
-/tmp/wait-port.sh:
+/tmp/wait-rabbitmq-port.sh:
   file.managed:
-    - source: salt://keystone/files/wait-port.sh
+    - source: salt://keystone/files/wait-rabbitmq-port.sh
     - template: jinja
 
-wait-keystone-port:
+wait-rabbitmq-port:
   cmd.run:
-    - name: /bin/bash /tmp/wait-port.sh 300 {{ pillar["rabbitmq"]["endpoint"] }} 5672
+    - name: /bin/bash /tmp/wait-rabbitmq-port.sh 300 {{ pillar["rabbitmq"]["endpoint"] }} 5672
     - stateful: True
     - require:
-      - file: /tmp/wait-port.sh
+      - file: /tmp/wait-rabbitmq-port.sh
       - docker: rabbitmq
     - require_in:
       - docker: rabbitmq-user
