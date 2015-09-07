@@ -39,7 +39,7 @@ extend:
   glance-registry:
     docker:
       - require:
-        - docker: glance-api:
+        - docker: glance-api
   nova-mysql:
     mysql_database:
       - require:
