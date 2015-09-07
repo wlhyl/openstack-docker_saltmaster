@@ -47,6 +47,7 @@ RUN mkdir -p /srv/pillar
 RUN mkdir -p /srv/custom/pillar
 
 COPY salt/ /srv/salt/
+COPY pillar/ /srv/pillar/
 
 ADD salt-master.conf /etc/supervisor/conf.d/salt-master.conf
 ADD pillarHttp.py /srv/custom/pillar/pillarHttp.py
