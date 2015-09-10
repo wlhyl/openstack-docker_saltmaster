@@ -116,8 +116,8 @@ admin:
     - roles:
         admin:   # tenants
           - admin  # roles
-        service:
-          - admin
+        # service:
+        #   - admin
     - profile: {{ openstack_profile }}
     - require:
       - keystone: Keystone_tenants
