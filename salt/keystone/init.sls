@@ -83,9 +83,9 @@ keystone_service:
 keystone_endpoint:
   keystone.endpoint_present:
     - name: keystone
-    - publicurl: http://{{ pillar['keystone']['public_endpoint'] }}:5000/v3
-    - internalurl: http://{{ pillar['keystone']['internal_endpoint'] }}:5000/v3
-    - adminurl: http://{{ pillar['keystone']['admin_endpoint'] }}:35357/v3
+    - publicurl: http://{{ pillar['keystone']['public_endpoint'] }}:5000/v2.0
+    - internalurl: http://{{ pillar['keystone']['internal_endpoint'] }}:5000/v2.0
+    - adminurl: http://{{ pillar['keystone']['admin_endpoint'] }}:35357/v2.0
     - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
