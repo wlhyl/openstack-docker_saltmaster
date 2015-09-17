@@ -1,6 +1,8 @@
 # 环境说明
-## 节点controller, compute0, network
-## tunel 走管理网络
+- 控制controller 10.127.0.59
+- 计算compute0 10.127.0.60
+- 网络节点 network 10.127.0.61
+- tunel 走管理网络
 
 # 预安装
 ## 准备 salt-master
@@ -57,6 +59,14 @@ salt 'controller' cmd.run 'pip install python-openstackclient -i http://mirrors.
 salt 'controller' pkg.install python-mysqldb
 ```
 ## 设置pillar
+### 编辑top.sls
+```bash
+cat /srv/pillar/top.sls 
+base:
+  '*':
+    - openstack
+```
+### 编辑openstack.sls
 ```bash
 cat openstack.sls   
 docker:
@@ -166,41 +176,48 @@ network:
   local_ip: 10.127.0.61
 ```
 
-# 节点有三种角色:
+# 设置角色
+## 节点有三种角色:
 - controller
 - compute
 - network
 
-# 设置节点角色, controller可以不用设置role
+## 设置节点角色, controller可以不用设置role
 ```bash
 salt 'net*' grains.setval roles "['network']"
 salt 'net*' grains.setval roles "['network', 'compute']"
 salt 'net*' grains.remove roles network
 ```
 
-# 运行salt-master
-变量：PILLAR_HTTP_ENDPOINT是 saltviewer 的地址
-```bash
-docker run -d \
-    -e PILLAR_HTTP_ENDPOINT=http://127.0.0.1/api/ \
-    --name salt-master \
-    -p 4505:4505 \
-    -p 4506:4506 \
-    -v /opt/salt:/etc/salt
-    10.64.0.50:5000/lzh/salt-master
-```
-
 # 配置ntp
-在docker server 上配置ntp client作好时间同步
+在所有节点 上配置ntp client作好时间同步
 
-# 构建images
+# 单节点配置
+## master端推送模式
 ```bash
-cd kilo
-docker build -t lzh/openstackbase:kilo base
-docker build -t lzh/mariadb:kilo mariadb
-docker build -t lzh/keystone:kilo keystone
-docker build -t lzh/glance:kilo glance
+salt 'controller' state.sls controller
+salt 'compute0' state.sls compute
+salt 'network' state.sls netwokr
 ```
+## client端拉取模式
+### 编辑/srv/salt/top.sls
+```bash
+cat /srv/salt/top.sls
+base:
+  'controller':
+    - controller
+  'compute*':
+    - compute
+  'network':
+    - network
+```
+### 在所有节点执行下面的命令
+```bash
+salt-call state.highstate 
+```
+
+# 多节点微服务配置
+下面的步骤用于微服务模式配置
 
 # 设置初始dns
 ## 编辑第一个节点/etc/hosts，添加如下几行，第一节点预先部署keystone, memcache, designate
