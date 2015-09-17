@@ -48,15 +48,16 @@ RUN mkdir -p /srv/salt
 RUN mkdir -p /srv/pillar
 RUN mkdir -p /srv/custom/pillar
 
-COPY salt/ /srv/salt/
-COPY pillar/ /srv/pillar/
+COPY salt/ /data/salt/
+COPY pillar/ /data/pillar/
 
 ADD salt-master.conf /etc/supervisor/conf.d/salt-master.conf
-ADD pillarHttp.py /srv/custom/pillar/pillarHttp.py
+ADD pillarHttp.py /data/custom/pillar/pillarHttp.py
 ADD entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 
 VOLUME ["/etc/salt/"]
+VOLUME ["/srv/"]
 
 EXPOSE 4505 4506
 

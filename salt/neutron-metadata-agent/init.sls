@@ -25,6 +25,7 @@ neutron-metadata-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-metadata-agent
 
+{% if grains['oscodename'] == 'jessie' %}
 neutron-metadata-agent:
   pkg.installed:
     - fromrepo: jessie-backports
@@ -36,3 +37,17 @@ neutron-metadata-agent:
       - docker: neutron-metadata-agent_docker
     - watch:
       - docker: neutron-metadata-agent_docker
+{% endif %}
+
+{% if grains['oscodename'] == 'trusty' %}
+neutron-metadata-agent:
+  pkg.installed:
+    - require_in:
+      - docker: neutron-metadata-agent_docker
+  service.running:
+    - name: neutron-metadata-agent
+    - require:
+      - docker: neutron-metadata-agent_docker
+    - watch:
+      - docker: neutron-metadata-agent_docker
+{% endif %}

@@ -20,7 +20,7 @@ neutron-plugin-openvswitch-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent
 
-{% if grains['os'] == 'Debian' %}
+{% if grains['oscodename'] == 'jessie' %}
 neutron-plugin-openvswitch-agent:
   pkg.installed:
     - fromrepo: jessie-backports
@@ -28,6 +28,20 @@ neutron-plugin-openvswitch-agent:
       - docker: neutron-plugin-openvswitch-agent_docker
   service.running:
     - name: neutron-openvswitch-agent
+    - enable: True
+    - require:
+      - docker: neutron-plugin-openvswitch-agent_docker
+    - watch:
+      - docker: neutron-plugin-openvswitch-agent_docker
+{% endif %}
+
+{% if grains['oscodename'] == 'trusty' %}
+neutron-plugin-openvswitch-agent:
+  pkg.installed:
+    - require_in:
+      - docker: neutron-plugin-openvswitch-agent_docker
+  service.running:
+    - name: neutron-plugin-openvswitch-agent
     - enable: True
     - require:
       - docker: neutron-plugin-openvswitch-agent_docker

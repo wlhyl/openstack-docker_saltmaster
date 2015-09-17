@@ -24,7 +24,7 @@ nova-compute_docker:
     - volumes:
       - /etc/nova/: /etc/nova/
 
-{% if grains['os'] == 'Debian' %}
+{% if grains['oscodename'] == 'jessie' %}
 nova-compute:
   pkg.installed:
     - pkgs:
@@ -33,6 +33,25 @@ nova-compute:
       - libguestfs-tools
       - python-guestfs
     - fromrepo: jessie-backports
+    - require_in:
+      - docker: nova-compute_docker
+  service.running:
+    - name: nova-compute
+    - enable: True
+    - require:
+      - docker: nova-compute_docker
+    - watch:
+      - docker: nova-compute_docker
+{% endif %}
+
+{% if grains['oscodename'] == 'trusty' %}
+nova-compute:
+  pkg.installed:
+    - pkgs:
+      - nova-compute
+      - sysfsutils
+      - libguestfs-tools
+      - python-guestfs
     - require_in:
       - docker: nova-compute_docker
   service.running:

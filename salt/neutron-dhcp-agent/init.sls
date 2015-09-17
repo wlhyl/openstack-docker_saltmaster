@@ -20,6 +20,7 @@ neutron-dhcp-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-dhcp-agent
 
+{% if grains['oscodename'] == 'jessie' %}
 neutron-dhcp-agent:
   pkg.installed:
     - fromrepo: jessie-backports
@@ -31,3 +32,17 @@ neutron-dhcp-agent:
       - docker: neutron-dhcp-agent_docker
     - watch:
       - docker: neutron-dhcp-agent_docker
+{% endif %}
+
+{% if grains['oscodename'] == 'trusty' %}
+neutron-dhcp-agent:
+  pkg.installed:
+    - require_in:
+      - docker: neutron-dhcp-agent_docker
+  service.running:
+    - name: neutron-dhcp-agent
+    - require:
+      - docker: neutron-dhcp-agent_docker
+    - watch:
+      - docker: neutron-dhcp-agent_docker
+{% endif %}

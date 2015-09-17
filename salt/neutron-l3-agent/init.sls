@@ -20,6 +20,7 @@ neutron-l3-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-l3-agent
 
+{% if grains['oscodename'] == 'jessie' %}
 neutron-l3-agent:
   pkg.installed:
     - fromrepo: jessie-backports
@@ -31,3 +32,17 @@ neutron-l3-agent:
       - docker: neutron-l3-agent_docker
     - watch:
       - docker: neutron-l3-agent_docker
+{% endif %}
+
+{% if grains['oscodename'] == 'trusty' %}
+neutron-l3-agent:
+  pkg.installed:
+    - require_in:
+      - docker: neutron-l3-agent_docker
+  service.running:
+    - name: neutron-l3-agent
+    - require:
+      - docker: neutron-l3-agent_docker
+    - watch:
+      - docker: neutron-l3-agent_docker
+{% endif %}
