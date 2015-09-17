@@ -10,6 +10,7 @@ openstack-dashboard:
     - environment:
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['public_endpoint'] }}
       - OPENSTACK_KEYSTONE_DEFAULT_ROLE: user
+      - MEMCACHE_SERVER: {{ pillar['keystone']['memcached_server'] }}
     - network_mode: host
     - volumes:
       - /opt/openstack/openstack-dashboard: /etc/openstack-dashboard

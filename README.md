@@ -164,7 +164,7 @@ designate:
   email: 10.127.0.59 
 
 
-controoler:
+controller:
   my_ip: 10.127.0.59
 
 compute0:
@@ -214,6 +214,16 @@ base:
 ### 在所有节点执行下面的命令
 ```bash
 salt-call state.highstate 
+```
+
+# 配置注意事项
+## mysql会作反向解析, 导致安装过程很慢，可以作如下 设置
+```bash
+docker exec -it mysql echo 10.127.0.59 controller >> /etc/hosts
+```
+## 安装过程中需要关注mysql的输出日志，如果有报错，需要修复，如数据表有未同步完成
+```bash
+docker logs mysql
 ```
 
 # 多节点微服务配置

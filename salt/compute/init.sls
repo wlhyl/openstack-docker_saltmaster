@@ -1,4 +1,5 @@
 include:
+  - repo
   - nova-compute
   - neutron-plugin-openvswitch-agent
   
@@ -8,3 +9,9 @@ extend:
     docker:
       - require:
         - service: nova-compute
+{% if grains['oscodename'] == 'trusty' %}
+  cloud-archive:
+    pkgrepo:
+      - require_in:
+        - pkg: nova-compute
+{% endif %}

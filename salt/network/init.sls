@@ -1,4 +1,5 @@
 include:
+  - repo
   - neutron-plugin-openvswitch-agent
   - neutron-l3-agent
   - neutron-dhcp-agent
@@ -17,3 +18,9 @@ extend:
     docker:
       - require:
         - service: neutron-dhcp-agent
+{% if grains['oscodename'] == 'trusty' %}
+  cloud-archive:
+    pkgrepo:
+      - require_in:
+        - pkg: neutron-plugin-openvswitch-agent
+{% endif %}
