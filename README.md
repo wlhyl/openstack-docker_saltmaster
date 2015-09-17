@@ -1,4 +1,172 @@
-#节点有三种角色:
+# 环境说明
+## 节点controller, compute0, network
+## tunel 走管理网络
+
+# 预安装
+## 准备 salt-master
+变量：PILLAR_HTTP_ENDPOINT是 saltviewer 的地址
+```bash
+docker run -d \
+    -e PILLAR_HTTP_ENDPOINT=http://127.0.0.1/api/ \
+    --name salt-master \
+    -p 4505:4505 \
+    -p 4506:4506 \
+    -v /opt/salt:/etc/salt \
+    -v /opt/salt/srv:/srv \
+    10.64.0.50:5000/lzh/salt-master
+
+docker run -d \
+    -e PILLAR_HTTP_ENDPOINT=http://127.0.0.1/api/ \
+    --name salt-master \
+    --net=host \
+    -v /opt/salt/etc:/etc/salt \
+    -v /opt/salt/srv:/srv \
+    10.64.0.50:5000/lzh/salt-master
+```
+## 准备节点
+### jessie
+```bash
+echo deb http://repo.saltstack.com/apt/debian jessie contrib >/etc/apt/sources.list.d/saltstack.list
+wget -O - https://repo.saltstack.com/apt/debian/SALTSTACK-GPG-KEY.pub | apt-key add -
+apt-get update && apt-get install salt-minion
+```
+### trusty
+```bash
+add-apt-repository ppa:saltstack/salt
+apt-get update
+apt-get install salt-minion -y
+```
+### 安装docker 1.6.2
+```bash
+apt-get install apt-get install lxc-docker-1.6.2
+```
+### 安装pip
+```bash
+salt '*' pkg.install python-setuptools
+salt '*' cmd.run 'easy_install -i http://mirrors.aliyun.com/pypi/simple/ pip'
+salt 'con*' pip.install pip upgrade=True
+salt '*' cmd.run 'pip install docker-py==1.2.3 -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com'
+```
+### 在controller节点上安装python-openstackclient
+```bash
+salt 'controller' pkg.install pkgs='["python-dev", "gcc"]'
+salt 'controller' cmd.run 'pip install python-openstackclient -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com'
+```
+### 在controller节点上安装python-mysqldb
+```bash
+salt 'controller' pkg.install python-mysqldb
+```
+## 设置pillar
+```bash
+cat openstack.sls   
+docker:
+  registry: 10.64.0.50:5000
+  
+openstack:
+  keystone.endpoint: http://10.127.0.59:35357/v2.0
+  region: RegionOne
+  keystone.token: lzh
+
+rabbitmq:
+  rabbitmq_erlang_cookie: abc
+  endpoint: 10.127.0.59
+  rabbitmq_user: openstack
+  rabbitmq_pass: openstack
+
+mysql:
+  root_password: 123456
+  db_host: 10.127.0.59
+
+bind9:
+  allow_rndc_host: any
+  rndc_key_secret: aG81KpUybEqISe+BPpJYng==
+
+keystone:
+  public_endpoint: 10.127.0.59
+  internal_endpoint: 10.127.0.59
+  admin_endpoint: 10.127.0.59
+  db_password: keystone
+  db_host: 10.127.0.59
+  admin_token: lzh
+  memcached_server: 10.127.0.59
+  admin_pass: 123456 # openstack user admin
+  email: admin@ynnic.in # openstack user admin email
+
+glance:
+  public_endpoint: 10.127.0.59
+  internal_endpoint: 10.127.0.59
+  admin_endpoint: 10.127.0.59
+  db_host: 10.127.0.59
+  db_password: glance 
+  glance_pass: glance 
+  email: glance@ynnic.in 
+
+
+nova:
+  public_endpoint: 10.127.0.59
+  internal_endpoint: 10.127.0.59
+  admin_endpoint: 10.127.0.59
+  rabbit_host: 10.127.0.59
+  rabbit_userid: openstack
+  rabbit_password: openstack
+  db_host: 10.127.0.59
+  db_password: nova 
+  novncproxy_base_url: 10.127.0.59
+  nova_pass: nova 
+  email: nova@ynnic.in 
+
+neutron:
+  public_endpoint: 10.127.0.59
+  internal_endpoint: 10.127.0.59
+  admin_endpoint: 10.127.0.59
+  rabbit_host: 10.127.0.59
+  rabbit_userid: openstack
+  rabbit_password: openstack
+  db_host: 10.127.0.59
+  db_password: neutron 
+  metadata_proxy_shared_secret: abc
+  neutron_pass: neutron 
+  email: 10.127.0.59 
+
+cinder:
+  public_endpoint: 10.127.0.59
+  internal_endpoint: 10.127.0.59
+  admin_endpoint: 10.127.0.59
+  rabbit_host: 10.127.0.59
+  rabbit_userid: openstack
+  rabbit_password: openstack
+  db_host: 10.127.0.59
+  db_password: neutron 
+  cinder_pass: nova 
+  email: 10.127.0.59 
+
+
+designate:
+  public_endpoint: 10.127.0.59
+  internal_endpoint: 10.127.0.59
+  admin_endpoint: 10.127.0.59
+  rabbit_host: 10.127.0.59
+  rabbit_userid: openstack
+  rabbit_password: openstack
+  db_host: 10.127.0.59
+  db_password: designate 
+  designate_pass: nova 
+  email: 10.127.0.59 
+
+
+controoler:
+  my_ip: 10.127.0.59
+
+compute0:
+  my_ip: 10.127.0.60
+  local_ip: 10.127.0.60
+
+network:
+  my_ip: 10.127.0.61
+  local_ip: 10.127.0.61
+```
+
+# 节点有三种角色:
 - controller
 - compute
 - network
