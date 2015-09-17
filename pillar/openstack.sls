@@ -65,7 +65,7 @@ neutron:
   db_password: neutron 
   metadata_proxy_shared_secret: abc
   neutron_pass: neutron 
-  email: 10.127.0.37 
+  email: neutron@ynnic.in
 
 cinder:
   public_endpoint: 10.127.0.37
@@ -77,7 +77,7 @@ cinder:
   db_host: 10.127.0.37
   db_password: neutron 
   cinder_pass: nova 
-  email: 10.127.0.37 
+  email: cinder@ynnic.in
 
 
 designate:
@@ -90,7 +90,7 @@ designate:
   db_host: 10.127.0.37
   db_password: designate 
   designate_pass: nova 
-  email: 10.127.0.37 
+  email: designate@ynnic.in
 
 
 con:
