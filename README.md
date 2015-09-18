@@ -38,8 +38,21 @@ add-apt-repository ppa:saltstack/salt
 apt-get update
 apt-get install salt-minion -y
 ```
+### 升级trustry内核
+kernel 3.13.0-63 的trusty有一个bug, 运行下面命令，会报错，升级到 kernel 3.16.0-49 可以解决
+```bash
+docker run -it --rm --net=host ubuntu:trusty su -s /bin/sh
+su: System error
+```
+```bash
+apt-get install linux-image-3.16.0-49-generic
+```
+
 ### 安装docker 1.6.2
 ```bash
+echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+apt-get update
 apt-get install apt-get install lxc-docker-1.6.2
 ```
 ### 安装pip
