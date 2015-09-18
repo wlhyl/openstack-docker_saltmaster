@@ -4,8 +4,8 @@ ubuntu-cloud-keyring:
 
 cloud-archive:
   pkgrepo.managed:
-      - humanname: cloud-archive_juno
-      - name: http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main
+      - humanname: cloud-archive
+      - name: deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main
       - dist: trusty-updates/kilo
       - comps: main
       - file: /etc/apt/sources.list.d/cloudarchive-kilo.list

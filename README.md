@@ -26,6 +26,7 @@ docker run -d \
     10.64.0.50:5000/lzh/salt-master
 ```
 ## 准备节点
+推荐jessie作控制节点
 ### jessie
 ```bash
 echo deb http://repo.saltstack.com/apt/debian jessie contrib >/etc/apt/sources.list.d/saltstack.list
@@ -38,7 +39,9 @@ add-apt-repository ppa:saltstack/salt
 apt-get update
 apt-get install salt-minion -y
 ```
-### 升级trustry内核
+### trusy作控制节点
+trusty作控制节点需要作如下处理
+#### 升级trustry内核
 kernel 3.13.0-63 的trusty有一个bug, 运行下面命令，会报错，升级到 kernel 3.16.0-49 可以解决
 ```bash
 docker run -it --rm --net=host ubuntu:trusty su -s /bin/sh
@@ -47,7 +50,18 @@ su: System error
 ```bash
 apt-get install linux-image-3.16.0-49-generic
 ```
-
+#### 编译nsenter, jessie上使用的是util-linux  2.25.2-6
+```bash
+apt-get install wget gcc pkg-config make -y
+docker run -it --rm --net=host -v /tmp/nsenter:/tmp/nsenter 10.64.0.50:5000/lzh/openstackbase:kilo /bin/bash
+https://www.kernel.org/pub/linux/utils/util-linux/v2.25/util-linux-2.25.2.tar.gz
+tar xvzf util-linux-2.25.2.tar.gz
+cd util-linux-2.25.2
+./configure --without-ncurses --without-python
+cp nsenter /tmp/nsenter/
+exit
+cp /tmp/nsenter/nsenter /usr/local/bin/
+```
 ### 安装docker 1.6.2
 ```bash
 echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list
