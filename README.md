@@ -430,6 +430,7 @@ salt 'con*' state.sls cinder-scheduler
 salt 'cinder-volume*' state.sls cinder-volume
 ```
 ## 部署cinder-backup
+未完成
 cinder-backup需要和cinder-volume部署在一起
 ```bash
 salt 'cinder-volume*' state.sls cinder-backup

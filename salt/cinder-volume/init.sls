@@ -23,7 +23,7 @@ cinder-volume_docker:
     - volumes:
       - /etc/cinder/: /etc/cinder/
 
-{% if grains['os'] == 'Debian' %}
+{% if grains['oscodename'] == 'jessie' %}
 cinder-volume:
   pkg.installed:
     - pkgs:
@@ -31,6 +31,24 @@ cinder-volume:
       - python-mysqldb
       - ceph-common
     - fromrepo: jessie-backports
+    - require_in:
+      - docker: cinder-volume_docker
+  service.running:
+    - name: cinder-volume
+    - enable: True
+    - require:
+      - docker: cinder-volume_docker
+    - watch:
+      - docker: cinder-volume_docker
+{% endif %}
+
+{% if grains['oscodename'] == 'trusty' %}
+cinder-volume:
+  pkg.installed:
+    - pkgs:
+      - cinder-volume 
+      - python-mysqldb
+      - ceph-common
     - require_in:
       - docker: cinder-volume_docker
   service.running:
