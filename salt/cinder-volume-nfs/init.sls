@@ -34,14 +34,14 @@ cinder-volume:
       - nfs-common
     - fromrepo: jessie-backports
     - require_in:
-      - docker: cinder-volume_docker
+      - docker: cinder-volume-nfs_docker
   service.running:
     - name: cinder-volume
     - enable: True
     - require:
-      - docker: cinder-volume_docker
+      - docker: cinder-volume-nfs_docker
     - watch:
-      - docker: cinder-volume_docker
+      - docker: cinder-volume-nfs_docker
 {% endif %}
 
 {% if grains['oscodename'] == 'trusty' %}
@@ -52,12 +52,12 @@ cinder-volume:
       - python-mysqldb
       - nfs-common
     - require_in:
-      - docker: cinder-volume_docker
+      - docker: cinder-volume-nfs_docker
   service.running:
     - name: cinder-volume
     - enable: True
     - require:
-      - docker: cinder-volume_docker
+      - docker: cinder-volume-nfs_docker
     - watch:
-      - docker: cinder-volume_docker
+      - docker: cinder-volume-nfs_docker
 {% endif %}
