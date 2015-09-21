@@ -25,6 +25,16 @@ cinder-volume-nfs_docker:
     - volumes:
       - /etc/cinder/: /etc/cinder/
 
+/etc/cinder/nfsshares:
+  file.managed:
+    - user: root
+    - group: cinder
+    - mode: 640
+    - require:
+      - docker: cinder-volume-nfs_docker
+    - require_in:
+      - service: cinder-volume
+
 {% if grains['oscodename'] == 'jessie' %}
 cinder-volume:
   pkg.installed:
@@ -42,6 +52,7 @@ cinder-volume:
       - docker: cinder-volume-nfs_docker
     - watch:
       - docker: cinder-volume-nfs_docker
+      - file: /etc/cinder/nfsshares
 {% endif %}
 
 {% if grains['oscodename'] == 'trusty' %}
@@ -60,4 +71,5 @@ cinder-volume:
       - docker: cinder-volume-nfs_docker
     - watch:
       - docker: cinder-volume-nfs_docker
+      - file: /etc/cinder/nfsshares
 {% endif %}
