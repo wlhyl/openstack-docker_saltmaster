@@ -3,7 +3,7 @@
     - tag: kilo
     - insecure_registry: True
     - require_in:
-      - docker: cinder-volume_docker-nfs
+      - docker: cinder-volume-nfs_docker
 
 cinder-volume-nfs_docker:
   docker.running:
@@ -23,3 +23,4 @@ cinder-volume-nfs_docker:
     - volumes:
       - /opt/openstack/cinder-volume-nfs/: /etc/cinder/
       - /opt/openstack/log/cinder-volume-nfs/: /var/log/cinder/
+    - network_mode: host
