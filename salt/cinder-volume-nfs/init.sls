@@ -21,7 +21,7 @@ cinder-volume-nfs_docker:
       - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
       - CINDER_PASS: {{ pillar['cinder']['cinder_pass'] }}
       - GLANCE_HOST: {{ pillar['glance']['internal_endpoint'] }}
-      - VOLUME_BACKEND_NAME: {{ pillar[grains['id']]['VOLUME_BACKEND_NAME'] }}
+      - VOLUME_BACKEND_NAME: {{ pillar[grains['id']]['volume_backend_name'] }}
     - volumes:
       - /etc/cinder/: /etc/cinder/
 
