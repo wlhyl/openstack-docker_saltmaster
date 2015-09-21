@@ -42,7 +42,7 @@ apt-get install salt-minion -y
 ### trusy作控制节点
 trusty作控制节点需要作如下处理
 #### 升级trustry内核
-kernel 3.13.0-63 的trusty有一个bug, 运行下面命令，会报错，升级到 kernel 3.16.0-49 可以解决
+kernel 3.13.0-63 的trusty有一个bug, 运行下面命令，会报错，升级到 kernel 3.16.0-49 可以解决，kernel 3.13也不支持vhost，升级到3.16可以支持
 ```bash
 docker run -it --rm --net=host ubuntu:trusty su -s /bin/sh
 su: System error
