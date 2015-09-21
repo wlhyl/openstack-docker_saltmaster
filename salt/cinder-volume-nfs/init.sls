@@ -9,6 +9,7 @@ cinder-volume-nfs_docker:
   docker.running:
     - name: cinder-volume-nfs
     - image: {{ pillar['docker']['registry'] }}/lzh/cinder-volume-nfs:kilo
+    - privileged: True
     - environment:
       - CINDER_DB: {{ pillar['cinder']['db_host'] }}
       - CINDER_DBPASS: {{ pillar['cinder']['db_password'] }}
@@ -20,7 +21,43 @@ cinder-volume-nfs_docker:
       - MY_IP: {{ pillar[grains['id']]['my_ip'] }}
       - CINDER_PASS: {{ pillar['cinder']['cinder_pass'] }}
       - GLANCE_HOST: {{ pillar['glance']['internal_endpoint'] }}
+      - VOLUME_BACKEND_NAME: {{ pillar['id']['VOLUME_BACKEND_NAME'] }}
     - volumes:
-      - /opt/openstack/cinder-volume-nfs/: /etc/cinder/
-      - /opt/openstack/log/cinder-volume-nfs/: /var/log/cinder/
-    - network_mode: host
+      - /etc/cinder/: /etc/cinder/
+
+{% if grains['oscodename'] == 'jessie' %}
+cinder-volume:
+  pkg.installed:
+    - pkgs:
+      - cinder-volume 
+      - python-mysqldb
+      - nfs-common
+    - fromrepo: jessie-backports
+    - require_in:
+      - docker: cinder-volume_docker
+  service.running:
+    - name: cinder-volume
+    - enable: True
+    - require:
+      - docker: cinder-volume_docker
+    - watch:
+      - docker: cinder-volume_docker
+{% endif %}
+
+{% if grains['oscodename'] == 'trusty' %}
+cinder-volume:
+  pkg.installed:
+    - pkgs:
+      - cinder-volume 
+      - python-mysqldb
+      - nfs-common
+    - require_in:
+      - docker: cinder-volume_docker
+  service.running:
+    - name: cinder-volume
+    - enable: True
+    - require:
+      - docker: cinder-volume_docker
+    - watch:
+      - docker: cinder-volume_docker
+{% endif %}
