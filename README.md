@@ -224,6 +224,9 @@ salt 'net*' grains.remove roles network
 
 # 配置ntp
 在所有节点 上配置ntp client作好时间同步
+```bash
+salt '*' pkg.install ntp
+```
 
 # 单节点配置
 ## master端推送模式
