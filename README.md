@@ -163,7 +163,7 @@ neutron:
   db_password: neutron 
   metadata_proxy_shared_secret: abc
   neutron_pass: neutron 
-  email: 10.127.0.59 
+  email: neutron@ynnic.in
 
 cinder:
   public_endpoint: 10.127.0.59
@@ -175,7 +175,7 @@ cinder:
   db_host: 10.127.0.59
   db_password: neutron 
   cinder_pass: nova 
-  email: 10.127.0.59 
+  email: cinder@ynnic.in
 
 
 designate:
@@ -188,7 +188,7 @@ designate:
   db_host: 10.127.0.59
   db_password: designate 
   designate_pass: nova 
-  email: 10.127.0.59 
+  email: designate@ynnic.in
 
 
 controller:
@@ -197,6 +197,12 @@ controller:
 compute0:
   my_ip: 10.127.0.60
   local_ip: 10.127.0.60
+  volume_backend_name: compute0
+
+compute1:
+  my_ip: 10.127.0.77
+  local_ip: 10.127.0.77
+  volume_backend_name: compute1
 
 network:
   my_ip: 10.127.0.61
