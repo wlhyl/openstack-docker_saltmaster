@@ -27,13 +27,36 @@ docker run -d \
 ```
 ## 准备节点
 推荐jessie作控制节点
-### jessie
+### 开启 kvm nested
+```bash
+cat /etc/modprobe.d/qemu-system-x86.conf   
+options kvm_intel nested=1
+```
+### 为docker 开启memory swap cgroup　limit
+#### jessie
+```bash
+GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"
+```
+#### trusty 默认已经启用memory limit
+```bash
+GRUB_CMDLINE_LINUX="swapaccount=1"
+```
+
+### 启用kvm cgroup
+```bash
+grep cgroup_controllers /etc/libvirt/qemu.conf       
+#cgroup_controllers = [ "cpu", "devices", "memory", "blkio", "cpuset", "cpuacct" ]
+cgroup_controllers = [ "cpu", "devices", "memory", "blkio", "cpuset", "cpuacct" ]
+```
+
+### 安装salt
+#### jessie
 ```bash
 echo deb http://repo.saltstack.com/apt/debian jessie contrib >/etc/apt/sources.list.d/saltstack.list
 wget -O - https://repo.saltstack.com/apt/debian/SALTSTACK-GPG-KEY.pub | apt-key add -
 apt-get update && apt-get install salt-minion
 ```
-### trusty
+#### trusty
 ```bash
 add-apt-repository ppa:saltstack/salt
 apt-get update
