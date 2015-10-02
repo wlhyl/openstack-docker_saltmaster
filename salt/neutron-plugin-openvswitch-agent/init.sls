@@ -107,3 +107,12 @@ br-ex:
       - pkg: neutron-plugin-openvswitch-agent
     - require_in:
       - service: neutron-plugin-openvswitch-agent
+
+br-private:
+  cmd.run:
+    - name: ovs-vsctl add-br br-private
+    - unless: ovs-vsctl br-exists br-private
+    - require:
+      - pkg: neutron-plugin-openvswitch-agent
+    - require_in:
+      - service: neutron-plugin-openvswitch-agent
