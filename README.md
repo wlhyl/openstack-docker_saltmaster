@@ -52,15 +52,15 @@ cgroup_controllers = [ "cpu", "devices", "memory", "blkio", "cpuset", "cpuacct" 
 ### 安装salt
 #### jessie
 ```bash
-echo deb http://repo.saltstack.com/apt/debian jessie contrib >/etc/apt/sources.list.d/saltstack.list
-wget -O - https://repo.saltstack.com/apt/debian/SALTSTACK-GPG-KEY.pub | apt-key add -
-apt-get update && apt-get install salt-minion
+echo deb http://repo.saltstack.com/apt/debian/2015.8 jessie main >/etc/apt/sources.list.d/saltstack.list
+wget -O - https://repo.saltstack.com/apt/debian/2015.8/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+apt-get update && apt-get install salt-minion -y
 ```
 #### trusty
 ```bash
-add-apt-repository ppa:saltstack/salt
-apt-get update
-apt-get install salt-minion -y
+echo deb http://repo.saltstack.com/apt/ubuntu/ubuntu14/2015.8 trusty main >/etc/apt/sources.list.d/saltstack.list
+wget -O - https://repo.saltstack.com/apt/ubuntu/ubuntu14/2015.8/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+apt-get update && apt-get install salt-minion -y
 ```
 ### trusy作控制节点
 trusty作控制节点需要作如下处理
