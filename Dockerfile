@@ -19,8 +19,8 @@ RUN echo "deb http://mirrors.aliyun.com/debian/ jessie-backports main non-free c
 
 RUN apt-get update && apt-get dist-upgrade -y && apt-get install supervisor wget -y && apt-get clean
 
-RUN wget -q -O- "http://debian.saltstack.com/debian-salt-team-joehealy.gpg.key" | apt-key add -
-RUN echo deb http://debian.saltstack.com/debian jessie-saltstack main >> /etc/apt/sources.list
+RUN wget -q -O- "http://repo.saltstack.com/apt/debian/8/amd64/2015.8/SALTSTACK-GPG-KEY.pub" | apt-key add -
+RUN echo deb http://repo.saltstack.com/apt/debian/8/amd64/2015.8/ jessie main >> /etc/apt/sources.list
 
 RUN apt-get update && apt-get dist-upgrade -y && apt-get install salt-master -y && apt-get clean
 

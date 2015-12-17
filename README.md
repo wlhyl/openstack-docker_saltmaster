@@ -52,7 +52,7 @@ cgroup_controllers = [ "cpu", "devices", "memory", "blkio", "cpuset", "cpuacct" 
 ### 安装salt
 #### jessie
 ```bash
-echo deb http://repo.saltstack.com/apt/debian/2015.8 jessie main >/etc/apt/sources.list.d/saltstack.list
+echo deb http://repo.saltstack.com/apt/debian/8/amd64/2015.8/ jessie main >/etc/apt/sources.list.d/saltstack.list
 wget -O - https://repo.saltstack.com/apt/debian/2015.8/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
 apt-get update && apt-get install salt-minion -y
 ```
@@ -126,6 +126,7 @@ openstack:
   keystone.endpoint: http://10.127.0.59:35357/v2.0
   region: RegionOne
   keystone.token: lzh
+  version: liberty
 
 rabbitmq:
   rabbitmq_erlang_cookie: abc
@@ -136,6 +137,7 @@ rabbitmq:
 mysql:
   root_password: 123456
   db_host: 10.127.0.59
+  version: 5.5.47
 
 bind9:
   allow_rndc_host: any
