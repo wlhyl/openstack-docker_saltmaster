@@ -60,6 +60,11 @@ keystone:
     - source: salt://keystone/files/wait-port.sh
     - template: jinja
 
+nmap-ncat:
+  pkg.installed:
+    - require_in: 
+      - cmd: wait-keystone-port
+
 wait-keystone-port:
   cmd.run:
     - name: /bin/bash /tmp/wait-port.sh 300 {{ pillar["keystone"]["admin_endpoint"] }} 35357
