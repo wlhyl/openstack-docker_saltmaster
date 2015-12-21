@@ -5,6 +5,7 @@ openstack:
   keystone.endpoint: http://10.127.0.37:35357/v2.0
   region: RegionOne
   keystone.token: lzh
+  version: liberty
 
 rabbitmq:
   rabbitmq_erlang_cookie: abc

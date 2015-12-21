@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import openstack_version with context %}
 {% from "global/map.jinja" import region with context %}
 
 keystone-mysql:
@@ -35,13 +36,13 @@ keystone-mysql:
 
 {{ pillar['docker']['registry'] }}/lzh/keystone:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 keystone:
   docker.running:
     - name: keystone
-    - image: {{ pillar['docker']['registry'] }}/lzh/keystone:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/keystone:{{ openstack_version }}
     - environment:
       - KEYSTONE_DB: {{ pillar['keystone']['db_host'] }}
       - KEYSTONE_DBPASS: {{ pillar['keystone']['db_password'] }}
