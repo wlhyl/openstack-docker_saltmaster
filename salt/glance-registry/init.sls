@@ -2,13 +2,13 @@
 
 {{ pillar['docker']['registry'] }}/lzh/glance-registry:
   docker.pulled:
-    - tag: {% openstack_version %}
+    - tag: { openstack_version }
     - insecure_registry: True
 
 glance-registry:
   docker.running:
     - name: glance-registry
-    - image: {{ pillar['docker']['registry'] }}/lzh/glance-registry:{% openstack_version %}
+    - image: {{ pillar['docker']['registry'] }}/lzh/glance-registry:{ openstack_version }
     - environment:
       - GLANCE_DB: {{ pillar['glance']['db_host'] }}
       - GLANCE_DBPASS: {{ pillar['glance']['db_password'] }}

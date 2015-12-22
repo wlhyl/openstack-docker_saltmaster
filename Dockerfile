@@ -1,10 +1,11 @@
-# image name lzh/salt-master
+# image name lzh/salt-master:liberty
 FROM debian:jessie
 
 MAINTAINER Zuhui Liu penguin_tux@live.com
 
 ENV BASE_VERSION 2015-07-27
-ENV OPENSTACK_VERSION kilo
+ENV OPENSTACK_VERSION liberty
+ENV BUILD_VERSION 2015-12-22
 
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -23,6 +24,7 @@ RUN wget -q -O- "http://repo.saltstack.com/apt/debian/8/amd64/2015.8/SALTSTACK-G
 RUN echo deb http://repo.saltstack.com/apt/debian/8/amd64/2015.8/ jessie main >> /etc/apt/sources.list
 
 RUN apt-get update && apt-get dist-upgrade -y && apt-get install salt-master -y && apt-get clean
+RUN rm -rf /var/lib/apt/*
 
 RUN env --unset=DEBIAN_FRONTEND
 
