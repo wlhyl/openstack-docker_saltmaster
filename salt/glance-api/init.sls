@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import openstack_version with context %}
 {% from "global/map.jinja" import region with context %}
 
 glance-mysql:
@@ -35,13 +36,13 @@ glance-mysql:
 
 {{ pillar['docker']['registry'] }}/lzh/glance-api:
   docker.pulled:
-    - tag: kilo
+    - tag: {% openstack_version %}
     - insecure_registry: True
 
 glance-api:
   docker.running:
     - name: glance-api
-    - image: {{ pillar['docker']['registry'] }}/lzh/glance-api:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/glance-api:{% openstack_version %}
     - environment:
       - GLANCE_DB: {{ pillar['glance']['db_host'] }}
       - GLANCE_DBPASS: {{ pillar['glance']['db_password'] }}
