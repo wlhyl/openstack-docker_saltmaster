@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/nova-cert:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 nova-cert:
   docker.running:
     - name: nova-cert
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-cert:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-cert:{{ openstack_version }}
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
       - NOVA_DBPASS: {{ pillar['nova']['db_password'] }}
