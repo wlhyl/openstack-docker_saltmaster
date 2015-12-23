@@ -1,14 +1,14 @@
 rabbitmq-image:
   docker.pulled:
     - name: rabbitmq
-    - tag: 3.5.3
+    - tag: 3.5.7
     - require_in:
       - docker: rabbitmq
 
 rabbitmq:
   docker.running:
     - name: rabbitmq
-    - image: rabbitmq:3.5.3
+    - image: rabbitmq:3.5.7
     - environment:
       - RABBITMQ_ERLANG_COOKIE: {{ pillar['rabbitmq']['rabbitmq_erlang_cookie'] }}
     - network_mode: host

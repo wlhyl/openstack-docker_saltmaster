@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import openstack_version with context %}
 {% from "global/map.jinja" import region with context %}
 
 nova-mysql:
@@ -35,13 +36,13 @@ nova-mysql:
 
 {{ pillar['docker']['registry'] }}/lzh/nova-api:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 nova-api:
   docker.running:
     - name: nova-api
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-api:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-api:{{ openstack_version }}
     - privileged: True
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
