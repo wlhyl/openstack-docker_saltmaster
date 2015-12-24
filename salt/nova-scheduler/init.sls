@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/nova-scheduler:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 nova-scheduler:
   docker.running:
     - name: nova-scheduler
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-scheduler:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-scheduler:{{ openstack_version }}
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
       - NOVA_DBPASS: {{ pillar['nova']['db_password'] }}
