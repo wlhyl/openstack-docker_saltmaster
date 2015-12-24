@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/nova-novncproxy:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 nova-novncproxy:
   docker.running:
     - name: nova-novncproxy
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-novncproxy:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-novncproxy:{{ openstack_version }}
     - environment:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
