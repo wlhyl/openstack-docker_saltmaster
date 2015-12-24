@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/nova-conductor:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 nova-conductor:
   docker.running:
     - name: nova-conductor
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-conductor:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-conductor:{{ openstack_version }}
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
       - NOVA_DBPASS: {{ pillar['nova']['db_password'] }}
