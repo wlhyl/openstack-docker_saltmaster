@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/nova-consoleauth:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 nova-consoleauth:
   docker.running:
     - name: nova-consoleauth
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-consoleauth:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-consoleauth:{{ openstack_version }}
     - environment:
       - NOVA_DB: {{ pillar['nova']['db_host'] }}
       - NOVA_DBPASS: {{ pillar['nova']['db_password'] }}
