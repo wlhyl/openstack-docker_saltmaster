@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import openstack_version with context %}
 {% from "global/map.jinja" import region with context %}
 
 neutron-mysql:
@@ -35,13 +36,13 @@ neutron-mysql:
 
 {{ pillar['docker']['registry'] }}/lzh/neutron-server:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 neutron-server:
   docker.running:
     - name: neutron-server
-    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-server:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-server:{{ openstack_version }}
     - environment:
       - NEUTRON_DB: {{ pillar['neutron']['db_host'] }}
       - NEUTRON_DBPASS: {{ pillar['neutron']['db_password'] }}

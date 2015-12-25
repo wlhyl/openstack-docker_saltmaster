@@ -9,8 +9,8 @@ include:
   - nova-cert
   - nova-conductor
   - nova-consoleauth
-  - nova-scheduler
   - nova-novncproxy
+  - nova-scheduler
   - neutron-server
 
 extend:
