@@ -5,10 +5,15 @@ ubuntu-cloud-keyring:
 cloud-archive:
   pkgrepo.managed:
       - humanname: cloud-archive
-      - name: deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main
-      - dist: trusty-updates/kilo
+      - name: deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/liberty main
+      - dist: trusty-updates/liberty
       - comps: main
-      - file: /etc/apt/sources.list.d/cloudarchive-kilo.list
+      - file: /etc/apt/sources.list.d/cloudarchive-liberty.list
       - require:
           - pkg: ubuntu-cloud-keyring
+{% endif %}
+
+{% if grains['os'] == 'CentOS' %}
+centos-release-openstack-liberty:
+  pkg.installed
 {% endif %}
