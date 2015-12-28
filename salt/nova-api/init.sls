@@ -58,6 +58,7 @@ nova-api:
       - NEUTRON_INTERNAL_ENDPOINT: {{ pillar['neutron']['internal_endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
       - METADATA_PROXY_SHARED_SECRET: {{ pillar['neutron']['metadata_proxy_shared_secret'] }}
+      - REGION_NAME: {{ region }}
     - volumes:
       - /opt/openstack/nova-api/: /etc/nova
       - /opt/openstack/log/nova-api/: /var/log/nova/

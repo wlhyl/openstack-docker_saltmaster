@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 neutron-plugin-openvswitch-agent_docker:
   docker.running:
     - name: neutron-plugin-openvswitch-agent
-    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent:{{ openstack_version }}
     - environment:
       - RABBIT_HOST: {{ pillar['neutron']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['neutron']['rabbit_userid'] }}
@@ -20,6 +22,7 @@ neutron-plugin-openvswitch-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-plugin-openvswitch-agent
 
+# liberty未测试 jessie
 {% if grains['oscodename'] == 'jessie' %}
 neutron-plugin-openvswitch-agent:
   pkg.installed:
@@ -35,6 +38,7 @@ neutron-plugin-openvswitch-agent:
       - docker: neutron-plugin-openvswitch-agent_docker
 {% endif %}
 
+# liberty未测试 trusy
 {% if grains['oscodename'] == 'trusty' %}
 neutron-plugin-openvswitch-agent:
   pkg.installed:
@@ -53,8 +57,7 @@ neutron-plugin-openvswitch-agent:
 neutron-plugin-openvswitch-agent:
   pkg.installed:
     - pkgs:
-      - openstack-neutron 
-      - openstack-neutron-ml2
+      - iptables
       - openstack-neutron-openvswitch
     - require_in:
       - docker: neutron-plugin-openvswitch-agent_docker

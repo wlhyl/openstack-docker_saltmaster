@@ -1,6 +1,9 @@
+{% from "global/map.jinja" import openstack_version with context %}
+{% from "global/map.jinja" import region with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/nova-compute:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_profile }}
     - insecure_registry: True
     - require_in:
       - docker: nova-compute_docker
@@ -8,7 +11,7 @@
 nova-compute_docker:
   docker.running:
     - name: nova-compute
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-compute:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-compute:{{ openstack_profile }}
     - environment:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
@@ -21,9 +24,11 @@ nova-compute_docker:
       - GLANCE_HOST: {{ pillar['glance']['internal_endpoint'] }}
       - NEUTRON_INTERNAL_ENDPOINT: {{ pillar['neutron']['internal_endpoint'] }}
       - NEUTRON_PASS: {{ pillar['neutron']['neutron_pass'] }}
+      - REGION_NAME: {{ region }}
     - volumes:
       - /etc/nova/: /etc/nova/
 
+# liberty 未为jessie准备镜像
 {% if grains['oscodename'] == 'jessie' %}
 nova-compute:
   pkg.installed:
@@ -44,6 +49,7 @@ nova-compute:
       - docker: nova-compute_docker
 {% endif %}
 
+# liberty 未为trusty准备镜像
 {% if grains['oscodename'] == 'trusty' %}
 nova-compute:
   pkg.installed:
@@ -69,7 +75,6 @@ nova-compute:
     - pkgs:
       - openstack-nova-compute
       - sysfsutils
-      - libguestfs-tools
     - require_in:
       - docker: nova-compute_docker
   service.running:
