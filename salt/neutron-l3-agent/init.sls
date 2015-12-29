@@ -59,6 +59,7 @@ neutron-l3-agent:
       - docker: neutron-l3-agent_docker
   service.running:
     - name: neutron-l3-agent
+    - enable: True
     - require:
       - docker: neutron-l3-agent_docker
     - watch:

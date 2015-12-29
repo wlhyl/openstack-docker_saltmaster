@@ -59,6 +59,7 @@ neutron-dhcp-agent:
       - docker: neutron-dhcp-agent_docker
   service.running:
     - name: neutron-dhcp-agent
+    - enable: True
     - require:
       - docker: neutron-dhcp-agent_docker
     - watch:
