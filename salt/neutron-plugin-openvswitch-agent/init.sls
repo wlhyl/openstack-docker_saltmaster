@@ -59,6 +59,7 @@ neutron-plugin-openvswitch-agent:
     - pkgs:
       - iptables
       - openstack-neutron-openvswitch
+      - openvswitch
     - require_in:
       - docker: neutron-plugin-openvswitch-agent_docker
   service.running:
@@ -90,6 +91,8 @@ openvswitch:
       - docker: neutron-plugin-openvswitch-agent_docker
     - require_in:
       - service: neutron-plugin-openvswitch-agent
+      - cmd: br-ex
+      - cmd: br-private
 {% endif %}
 
 {% if 'network' in grains['roles'] %}
