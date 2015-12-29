@@ -69,6 +69,19 @@ neutron-plugin-openvswitch-agent:
     - watch:
       - docker: neutron-plugin-openvswitch-agent_docker
 
+/etc/neutron/plugins/ml2/openvswitch_agent.ini:
+  file.symlink:
+    - target: /etc/neutron/plugins/ml2/ml2_conf.ini
+    - backupname: /etc/neutron/plugins/ml2/openvswitch_agent.ini.orig
+    - force: True
+    - user: root
+    - group: neutron
+    - mode: 640
+    - require:
+      - pkg: neutron-plugin-openvswitch-agent
+    - require_in:
+      - service: neutron-plugin-openvswitch-agent
+
 openvswitch:
   service.running:
     - name: openvswitch
