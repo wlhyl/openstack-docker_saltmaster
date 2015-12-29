@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/neutron-dhcp-agent:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 neutron-dhcp-agent_docker:
   docker.running:
     - name: neutron-dhcp-agent
-    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-dhcp-agent:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-dhcp-agent:{{ openstack_version }}
     - environment:
       - RABBIT_HOST: {{ pillar['neutron']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['neutron']['rabbit_userid'] }}
@@ -20,6 +22,7 @@ neutron-dhcp-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-dhcp-agent
 
+# liberty未测试 jessie
 {% if grains['oscodename'] == 'jessie' %}
 neutron-dhcp-agent:
   pkg.installed:
@@ -34,9 +37,24 @@ neutron-dhcp-agent:
       - docker: neutron-dhcp-agent_docker
 {% endif %}
 
+# liberty未测试 trusty
 {% if grains['oscodename'] == 'trusty' %}
 neutron-dhcp-agent:
   pkg.installed:
+    - require_in:
+      - docker: neutron-dhcp-agent_docker
+  service.running:
+    - name: neutron-dhcp-agent
+    - require:
+      - docker: neutron-dhcp-agent_docker
+    - watch:
+      - docker: neutron-dhcp-agent_docker
+{% endif %}
+
+{% if grains['os'] == 'CentOS' %}
+neutron-dhcp-agent:
+  pkg.installed:
+   - name: openstack-neutron
     - require_in:
       - docker: neutron-dhcp-agent_docker
   service.running:
