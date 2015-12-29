@@ -54,7 +54,7 @@ neutron-dhcp-agent:
 {% if grains['os'] == 'CentOS' %}
 neutron-dhcp-agent:
   pkg.installed:
-   - name: openstack-neutron
+    - name: openstack-neutron
     - require_in:
       - docker: neutron-dhcp-agent_docker
   service.running:
