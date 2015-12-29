@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/neutron-l3-agent:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 neutron-l3-agent_docker:
   docker.running:
     - name: neutron-l3-agent
-    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-l3-agent:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/neutron-l3-agent:{{ openstack_version }}
     - environment:
       - RABBIT_HOST: {{ pillar['neutron']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['neutron']['rabbit_userid'] }}
@@ -20,6 +22,7 @@ neutron-l3-agent_docker:
     - require:
       - docker: {{ pillar['docker']['registry'] }}/lzh/neutron-l3-agent
 
+# liberty未测试 jessie
 {% if grains['oscodename'] == 'jessie' %}
 neutron-l3-agent:
   pkg.installed:
@@ -34,9 +37,24 @@ neutron-l3-agent:
       - docker: neutron-l3-agent_docker
 {% endif %}
 
+# liberty未测试 trusty
 {% if grains['oscodename'] == 'trusty' %}
 neutron-l3-agent:
   pkg.installed:
+    - require_in:
+      - docker: neutron-l3-agent_docker
+  service.running:
+    - name: neutron-l3-agent
+    - require:
+      - docker: neutron-l3-agent_docker
+    - watch:
+      - docker: neutron-l3-agent_docker
+{% endif %}
+
+{% if grains['os'] == 'CentOS' %}
+neutron-l3-agent:
+  pkg.installed:
+    - name: openstack-neutron
     - require_in:
       - docker: neutron-l3-agent_docker
   service.running:
