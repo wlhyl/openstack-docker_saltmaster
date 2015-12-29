@@ -59,12 +59,12 @@ keystone:
   file.managed:
     - source: salt://keystone/files/wait-port.sh
     - template: jinja
-{% if grains['os'] == 'CentOS' %}
-nmap-ncat:
-  pkg.installed:
-    - require_in: 
-      - cmd: wait-keystone-port
-{% endif %}
+#{% if grains['os'] == 'CentOS' %}
+#nmap-ncat:
+#  pkg.installed:
+#    - require_in: 
+#      - cmd: wait-keystone-port
+#{% endif %}
 
 wait-keystone-port:
   cmd.run:
