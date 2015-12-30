@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/openstack-dashboard:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 openstack-dashboard:
   docker.running:
     - name: openstack-dashboard
-    - image: {{ pillar['docker']['registry'] }}/lzh/openstack-dashboard:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/openstack-dashboard:{{ openstack_version }}
     - environment:
       - KEYSTONE_ENDPOINT: {{ pillar['keystone']['public_endpoint'] }}
       - OPENSTACK_KEYSTONE_DEFAULT_ROLE: user
