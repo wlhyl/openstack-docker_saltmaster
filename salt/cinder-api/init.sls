@@ -1,4 +1,5 @@
 {% from "global/map.jinja" import openstack_profile with context %}
+{% from "global/map.jinja" import openstack_version with context %}
 {% from "global/map.jinja" import region with context %}
 
 cinder-mysql:
@@ -35,13 +36,13 @@ cinder-mysql:
 
 {{ pillar['docker']['registry'] }}/lzh/cinder-api:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 cinder-api:
   docker.running:
     - name: cinder-api
-    - image: {{ pillar['docker']['registry'] }}/lzh/cinder-api:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/cinder-api:{{ openstack_version }}
     - environment:
       - CINDER_DB: {{ pillar['cinder']['db_host'] }}
       - CINDER_DBPASS: {{ pillar['cinder']['db_password'] }}
@@ -87,9 +88,9 @@ cinder_service:
 cinder_endpoint:
   keystone.endpoint_present:
     - name: cinder
-    - publicurl: http://{{ pillar['cinder']['public_endpoint'] }}:8776/v2/%(tenant_id)s
-    - internalurl: http://{{ pillar['cinder']['internal_endpoint'] }}:8776/v2/%(tenant_id)s
-    - adminurl: http://{{ pillar['cinder']['admin_endpoint'] }}:8776/v2/%(tenant_id)s
+    - publicurl: http://{{ pillar['cinder']['public_endpoint'] }}:8776/v1/%(tenant_id)s
+    - internalurl: http://{{ pillar['cinder']['internal_endpoint'] }}:8776/v1/%(tenant_id)s
+    - adminurl: http://{{ pillar['cinder']['admin_endpoint'] }}:8776/v1/%(tenant_id)s
     - region: {{ region }}
     - profile: {{ openstack_profile }}
     - require:
