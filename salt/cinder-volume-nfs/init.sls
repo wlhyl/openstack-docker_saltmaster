@@ -1,6 +1,8 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/cinder-volume-nfs:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
     - require_in:
       - docker: cinder-volume-nfs_docker
@@ -8,7 +10,7 @@
 cinder-volume-nfs_docker:
   docker.running:
     - name: cinder-volume-nfs
-    - image: {{ pillar['docker']['registry'] }}/lzh/cinder-volume-nfs:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/cinder-volume-nfs:{{ openstack_version }}
     - privileged: True
     - environment:
       - CINDER_DB: {{ pillar['cinder']['db_host'] }}
@@ -35,6 +37,7 @@ cinder-volume-nfs_docker:
     - require_in:
       - service: cinder-volume
 
+# liberty 未为jessie准备镜像
 {% if grains['oscodename'] == 'jessie' %}
 cinder-volume:
   pkg.installed:
@@ -55,6 +58,7 @@ cinder-volume:
       - file: /etc/cinder/nfsshares
 {% endif %}
 
+# liberty 未为trusty准备镜像
 {% if grains['oscodename'] == 'trusty' %}
 cinder-volume:
   pkg.installed:
@@ -62,6 +66,25 @@ cinder-volume:
       - cinder-volume 
       - python-mysqldb
       - nfs-common
+    - require_in:
+      - docker: cinder-volume-nfs_docker
+  service.running:
+    - name: cinder-volume
+    - enable: True
+    - require:
+      - docker: cinder-volume-nfs_docker
+    - watch:
+      - docker: cinder-volume-nfs_docker
+      - file: /etc/cinder/nfsshares
+{% endif %}
+
+{% if grains['os'] == 'CentOS' %}
+cinder-volume:
+  pkg.installed:
+    - pkgs:
+      - openstack-cinder
+      - python-oslo-policy
+      - nfs-utils
     - require_in:
       - docker: cinder-volume-nfs_docker
   service.running:
