@@ -1,12 +1,14 @@
+{% from "global/map.jinja" import openstack_version with context %}
+
 {{ pillar['docker']['registry'] }}/lzh/cinder-scheduler:
   docker.pulled:
-    - tag: kilo
+    - tag: {{ openstack_version }}
     - insecure_registry: True
 
 cinder-scheduler:
   docker.running:
     - name: cinder-scheduler
-    - image: {{ pillar['docker']['registry'] }}/lzh/cinder-scheduler:kilo
+    - image: {{ pillar['docker']['registry'] }}/lzh/cinder-scheduler:{{ openstack_version }}
     - environment:
       - CINDER_DB: {{ pillar['cinder']['db_host'] }}
       - CINDER_DBPASS: {{ pillar['cinder']['db_password'] }}
