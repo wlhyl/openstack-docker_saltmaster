@@ -34,14 +34,15 @@ glance-mysql:
     - connection_charset: utf8
 
 
-{{ pillar['docker']['registry'] }}/lzh/glance-api-ceph:
+{{ pillar['docker']['registry'] }}/lzh/glance-api:
   docker.pulled:
+    - name: {{ pillar['docker']['registry'] }}/lzh/glance-api-ceph
     - tag: {{ openstack_version }}
     - insecure_registry: True
 
 glance-api:
   docker.running:
-    - name: glance-api
+    - name: glance-api-ceph
     - image: {{ pillar['docker']['registry'] }}/lzh/glance-api-ceph:{{ openstack_version }}
     - environment:
       - GLANCE_DB: {{ pillar['glance']['db_host'] }}
