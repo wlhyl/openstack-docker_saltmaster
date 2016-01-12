@@ -4,7 +4,7 @@
 
 {{ pillar['docker']['registry'] }}/lzh/nova-compute:
   docker.pulled:
-    -name: {{ pillar['docker']['registry'] }}/lzh/nova-compute-ceph
+    - name: {{ pillar['docker']['registry'] }}/lzh/nova-compute-ceph
     - tag: {{ openstack_version }}
     - insecure_registry: True
     - require_in:
