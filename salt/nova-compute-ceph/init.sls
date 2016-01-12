@@ -4,6 +4,7 @@
 
 {{ pillar['docker']['registry'] }}/lzh/nova-compute:
   docker.pulled:
+    -name: {{ pillar['docker']['registry'] }}/lzh/nova-compute-ceph
     - tag: {{ openstack_version }}
     - insecure_registry: True
     - require_in:
@@ -12,7 +13,7 @@
 nova-compute_docker:
   docker.running:
     - name: nova-compute
-    - image: {{ pillar['docker']['registry'] }}/lzh/nova-compute:{{ openstack_version }}
+    - image: {{ pillar['docker']['registry'] }}/lzh/nova-compute-ceph:{{ openstack_version }}
     - environment:
       - RABBIT_HOST: {{ pillar['nova']['rabbit_host'] }}
       - RABBIT_USERID: {{ pillar['nova']['rabbit_userid'] }}
