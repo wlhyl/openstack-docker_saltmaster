@@ -97,6 +97,7 @@ designate:
 
 controller:
   my_ip: 10.127.0.37
+  volume_backend_name: nsas
 
 compute0:
   my_ip: 10.127.0.37
