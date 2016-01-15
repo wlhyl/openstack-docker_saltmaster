@@ -28,6 +28,6 @@ cinder-volume_docker:
       - RBD_SECRET_UUID: {{ rbd_secret_uuid }}
     - volumes:
       - /opt/openstack/cinder-volume-ceph/: /etc/cinder/
-      - /opt/openstack/log/cinder-volume-ceph/: /var/log/cinder/c
+      - /opt/openstack/log/cinder-volume-ceph/: /var/log/cinder/
       - /etc/ceph: /etc/ceph
     - network_mode: host
