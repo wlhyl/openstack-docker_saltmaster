@@ -1,6 +1,6 @@
-{% from "global/map.jinja" import openstack_profile with context %}
-{% from "global/map.jinja" import openstack_version with context %}
-{% from "global/map.jinja" import region with context %}
+{% from "openstack/global/map.jinja" import openstack_profile with context %}
+{% from "openstack/global/map.jinja" import openstack_version with context %}
+{% from "openstack/global/map.jinja" import region with context %}
 
 keystone-mysql:
   mysql_database.present:
@@ -57,7 +57,7 @@ keystone:
 
 /tmp/wait-port.sh:
   file.managed:
-    - source: salt://keystone/files/wait-port.sh
+    - source: salt://openstack/keystone/files/wait-port.sh
     - template: jinja
 #{% if grains['os'] == 'CentOS' %}
 #nmap-ncat:
