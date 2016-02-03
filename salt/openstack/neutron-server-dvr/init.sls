@@ -1,6 +1,6 @@
-{% from "global/map.jinja" import openstack_profile with context %}
-{% from "global/map.jinja" import openstack_version with context %}
-{% from "global/map.jinja" import region with context %}
+{% from "openstack/global/map.jinja" import openstack_profile with context %}
+{% from "openstack/global/map.jinja" import openstack_version with context %}
+{% from "openstack/global/map.jinja" import region with context %}
 
 neutron-mysql:
   mysql_database.present:

@@ -1,4 +1,4 @@
-{% from "global/map.jinja" import openstack_version with context %}
+{% from "openstack/global/map.jinja" import openstack_version with context %}
 
 {{ pillar['docker']['registry'] }}/lzh/cinder-scheduler:
   docker.pulled:

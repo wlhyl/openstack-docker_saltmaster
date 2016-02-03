@@ -1,5 +1,5 @@
-{% from "global/map.jinja" import openstack_version with context %}
-{% from "global/map.jinja" import rbd_secret_uuid with context %}
+{% from "openstack/global/map.jinja" import openstack_version with context %}
+{% from "openstack/global/map.jinja" import rbd_secret_uuid with context %}
 
 {{ pillar['docker']['registry'] }}/lzh/cinder-volume:
   docker.pulled:

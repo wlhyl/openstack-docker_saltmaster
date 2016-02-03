@@ -1,6 +1,6 @@
-{% from "global/map.jinja" import openstack_profile with context %}
-{% from "global/map.jinja" import openstack_version with context %}
-{% from "global/map.jinja" import region with context %}
+{% from "openstack/global/map.jinja" import openstack_profile with context %}
+{% from "openstack/global/map.jinja" import openstack_version with context %}
+{% from "openstack/global/map.jinja" import region with context %}
 
 cinder-mysql:
   mysql_database.present:
@@ -62,7 +62,7 @@ cinder-api:
 
 /tmp/wait-port.sh:
   file.managed:
-    - source: salt://keystone/files/wait-port.sh
+    - source: salt://openstack/keystone/files/wait-port.sh
     - template: jinja
 
 wait-keystone-port:

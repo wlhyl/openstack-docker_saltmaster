@@ -1,5 +1,5 @@
-{% from "global/map.jinja" import openstack_profile with context %}
-{% from "global/map.jinja" import region with context %}
+{% from "openstack/global/map.jinja" import openstack_profile with context %}
+{% from "openstack/global/map.jinja" import region with context %}
 
 designate-mysql:
   mysql_database.present:
@@ -60,7 +60,7 @@ designate-api:
 
 /tmp/wait-port.sh:
   file.managed:
-    - source: salt://keystone/files/wait-port.sh
+    - source: salt://openstack/keystone/files/wait-port.sh
     - template: jinja
 
 wait-keystone-port:

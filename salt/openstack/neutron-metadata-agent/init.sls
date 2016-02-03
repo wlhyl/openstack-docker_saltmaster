@@ -1,5 +1,5 @@
-{% from "global/map.jinja" import openstack_version with context %}
-{% from "global/map.jinja" import region with context %}
+{% from "openstack/global/map.jinja" import openstack_version with context %}
+{% from "openstack/global/map.jinja" import region with context %}
 
 {{ pillar['docker']['registry'] }}/lzh/neutron-metadata-agent:
   docker.pulled:
