@@ -68,14 +68,14 @@ nova-api:
 
 nova_service:
   keystone.service_present:
-    - name: nova
+    - name: nova{{ region }}
     - service_type: compute
     - description: OpenStack Compute
     - profile: {{ openstack_profile }}
 
 nova_endpoint:
   keystone.endpoint_present:
-    - name: nova
+    - name: nova{{ region }}
     - publicurl: http://{{ pillar['nova']['public_endpoint'] }}:8774/v2/%(tenant_id)s
     - internalurl: http://{{ pillar['nova']['internal_endpoint'] }}:8774/v2/%(tenant_id)s
     - adminurl: http://{{ pillar['nova']['admin_endpoint'] }}:8774/v2/%(tenant_id)s

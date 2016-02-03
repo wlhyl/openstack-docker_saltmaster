@@ -80,14 +80,14 @@ wait-keystone-port:
 
 cinder_service:
   keystone.service_present:
-    - name: cinder
+    - name: cinder{{ region }}
     - service_type: volume
     - description: OpenStack Block Storage
     - profile: {{ openstack_profile }}
 
 cinder_endpoint:
   keystone.endpoint_present:
-    - name: cinder
+    - name: cinder{{ region }}
     - publicurl: http://{{ pillar['cinder']['public_endpoint'] }}:8776/v1/%(tenant_id)s
     - internalurl: http://{{ pillar['cinder']['internal_endpoint'] }}:8776/v1/%(tenant_id)s
     - adminurl: http://{{ pillar['cinder']['admin_endpoint'] }}:8776/v1/%(tenant_id)s
@@ -98,14 +98,14 @@ cinder_endpoint:
 
 cinderv2_service:
   keystone.service_present:
-    - name: cinderv2
+    - name: cinderv2{{ region }}
     - service_type: volumev2
     - description: OpenStack Block Storage
     - profile: {{ openstack_profile }}
 
 cinderv2_endpoint:
   keystone.endpoint_present:
-    - name: cinderv2
+    - name: cinderv2{{ region }}
     - publicurl: http://{{ pillar['cinder']['public_endpoint'] }}:8776/v2/%(tenant_id)s
     - internalurl: http://{{ pillar['cinder']['internal_endpoint'] }}:8776/v2/%(tenant_id)s
     - adminurl: http://{{ pillar['cinder']['admin_endpoint'] }}:8776/v2/%(tenant_id)s

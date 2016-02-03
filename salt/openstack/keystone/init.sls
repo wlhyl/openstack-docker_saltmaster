@@ -82,14 +82,14 @@ wait-keystone-port:
 
 keystone_service:
   keystone.service_present:
-    - name: keystone
+    - name: keystone{{ region }}
     - service_type: identity
     - description: OpenStack Identity
     - profile: {{ openstack_profile }}
 
 keystone_endpoint:
   keystone.endpoint_present:
-    - name: keystone
+    - name: keystone{{ region }}
     - publicurl: http://{{ pillar['keystone']['public_endpoint'] }}:5000/v2.0
     - internalurl: http://{{ pillar['keystone']['internal_endpoint'] }}:5000/v2.0
     - adminurl: http://{{ pillar['keystone']['admin_endpoint'] }}:35357/v2.0

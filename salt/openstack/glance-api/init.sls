@@ -60,14 +60,14 @@ glance-api:
 
 glance_service:
   keystone.service_present:
-    - name: glance
+    - name: glance{{ region }}
     - service_type: image
     - description: OpenStack Image service
     - profile: {{ openstack_profile }}
 
 glance_endpoint:
   keystone.endpoint_present:
-    - name: glance
+    - name: glance{{ region }}
     - publicurl: http://{{ pillar['glance']['public_endpoint'] }}:9292
     - internalurl: http://{{ pillar['glance']['internal_endpoint'] }}:9292
     - adminurl: http://{{ pillar['glance']['admin_endpoint'] }}:9292

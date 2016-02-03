@@ -64,14 +64,14 @@ neutron-server:
 
 neutron_service:
   keystone.service_present:
-    - name: neutron
+    - name: neutron{{ region }}
     - service_type: network
     - description: OpenStack Networking
     - profile: {{ openstack_profile }}
 
 neutron_endpoint:
   keystone.endpoint_present:
-    - name: neutron
+    - name: neutron{{ region }}
     - publicurl: http://{{ pillar['neutron']['public_endpoint'] }}:9696
     - internalurl: http://{{ pillar['neutron']['internal_endpoint'] }}:9696
     - adminurl: http://{{ pillar['neutron']['admin_endpoint'] }}:9696
