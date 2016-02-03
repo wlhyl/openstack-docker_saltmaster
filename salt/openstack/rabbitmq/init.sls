@@ -15,7 +15,7 @@ rabbitmq:
 
 /tmp/wait-rabbitmq-port.sh:
   file.managed:
-    - source: salt://keystone/files/wait-port.sh
+    - source: salt://openstack/keystone/files/wait-port.sh
     - template: jinja
 
 wait-rabbitmq-port:
